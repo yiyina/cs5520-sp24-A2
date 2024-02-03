@@ -1,4 +1,4 @@
-const color = {
+export const color = {
     background: '#AAA8C8',
     cardBackground: '#363679',
     text: '#3B387E',
@@ -10,4 +10,9 @@ const color = {
     alert: 'FDB80E',
 }
 
-export default color;
+export const spacing = {
+    small: 5,
+    medium: 10,
+    large: 20,
+    xlarge: 30,
+}
