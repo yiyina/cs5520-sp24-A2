@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import React from 'react';
 
-export default function Button({ text, textColor, handleClick }) {
+export default function Button({ text, textColor, handleClick, disabled }) {
     const styles = StyleSheet.create({
       textStyle: {
         color: textColor,
@@ -12,10 +12,10 @@ export default function Button({ text, textColor, handleClick }) {
   
     return (
       <View>
-          <TouchableOpacity onPress={handleClick}>
+          <TouchableOpacity onPress={handleClick} disabled={disabled}>
               <Text style={styles.textStyle}>{text}</Text>
           </TouchableOpacity>
       </View>
     )
-  }
+}
 
