@@ -1,10 +1,10 @@
 import { StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 import { color } from '../Components/StyleHelper';
-import LogoutNavigation from '../Components/LogoutNavigation';
+import useHeaderNavigation from '../Components/useHeaderNavigation';
 
 export default AllActivities = ({ navigation }) => {
-    LogoutNavigation(navigation);
+    useHeaderNavigation(navigation);
 
     return (
         <View style={styles.container}>

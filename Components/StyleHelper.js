@@ -15,4 +15,12 @@ export const spacing = {
     medium: 10,
     large: 20,
     xlarge: 30,
+    headerHeight: 100,
+}
+
+export const fontSize = {
+    small: 12,
+    medium: 18,
+    large: 24,
+    xlarge: 36,
 }

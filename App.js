@@ -3,9 +3,10 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { StyleSheet } from 'react-native';
 import React from 'react';
-import { color } from './Components/StyleHelper';
+import { color, spacing } from './Components/StyleHelper';
 import Start from './Screens/Start';
 import MyTabs from './Components/MyTabs';
+import AddAnActivity from './Screens/AddAnActivity';
 
 const Stack = createStackNavigator();
 
@@ -22,6 +23,18 @@ export default App = () => {
         }}>
         <Stack.Screen name="Start" component={Start} />
         <Stack.Screen name="Activities" component={MyTabs} />
+        <Stack.Screen 
+          name="Add An Activity" 
+          component={AddAnActivity} 
+          options={{
+            headerShown: true,
+            headerTintColor: color.invalid,
+            headerStyle : {
+              backgroundColor: color.cardBackground,
+              height: spacing.headerHeight,
+            },
+          }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

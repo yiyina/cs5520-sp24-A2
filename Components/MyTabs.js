@@ -3,7 +3,7 @@ import { Text } from 'react-native';
 import React from 'react';
 import AllActivities from '../Screens/AllActivities';
 import SpecialActivities from '../Screens/SpecialActivities';
-import { color } from './StyleHelper';
+import { color, spacing } from './StyleHelper';
 
 const Tab = createBottomTabNavigator();
 
@@ -13,6 +13,7 @@ export default MyTabs = () => {
       screenOptions={{ 
         headerStyle: {
           backgroundColor: color.cardBackground,
+          height: spacing.headerHeight,
         },
         headerTintColor: color.invalid,
         tabBarStyle:{
