@@ -30,7 +30,7 @@ export default MyTabs = () => {
             <Text style={{ color, fontWeight: 'bold' }}>$</Text> 
           ),
           tabBarLabel: ({ color }) => (
-            <Text style={{ color }}>All Activities</Text> // 自定义标签文本
+            <Text style={{ color }}>All Activities</Text>
           ),
         }} 
       />
@@ -42,7 +42,7 @@ export default MyTabs = () => {
             <Text style={{ color, fontWeight: 'bold' }}>!</Text> 
           ),
           tabBarLabel: ({ color }) => (
-            <Text style={{ color }}>Special Activities</Text> // 自定义标签文本
+            <Text style={{ color }}>Special Activities</Text>
           ),
         }}
       />

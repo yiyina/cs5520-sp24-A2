@@ -11,7 +11,7 @@ const useHeaderNavigation = (navigation, type) => {
             text="<" 
             textColor={color.invalid}
             handleClick={() => navigation.navigate('All Activities')} 
-            style={{ fontSize: fontSize.large }}
+            style={{ fontSize: fontSize.large, marginLeft: spacing.medium, padding: spacing.small }}
           />
         ),
       });
