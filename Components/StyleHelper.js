@@ -7,7 +7,7 @@ export const color = {
     warning: '#9A1464',
     transparent: 'rgba(0,0,0,0)',
     invalid: 'white',
-    alert: 'FDB80E',
+    alert: '#FDB80E',
 }
 
 export const spacing = {

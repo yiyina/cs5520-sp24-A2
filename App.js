@@ -1,24 +1,28 @@
 import { StatusBar } from 'expo-status-bar';
 import { NavigationContainer } from '@react-navigation/native';
-import { StyleSheet, View } from 'react-native';
-import React, { useState } from 'react';
-import color from './Components/StyleHelper';
+import { createStackNavigator } from '@react-navigation/stack';
+import { StyleSheet } from 'react-native';
+import React from 'react';
+import { color } from './Components/StyleHelper';
 import Start from './Screens/Start';
+import MyTabs from './Components/MyTabs';
 
-export default function App() {
-  const [loginSuccess, setLoginSuccess] = useState(false);
+const Stack = createStackNavigator();
 
-  const handleLogin = () => {
-    setLoginSuccess(true);
-    console.log('Login? : ' + loginSuccess);
-  }
-
+export default App = () => {
   return (
     <NavigationContainer>
-      <View style={styles.container}>
-        <StatusBar style="auto" />
-        <Start handleLogin={handleLogin}/>
-      </View>
+      <Stack.Navigator 
+        screenOptions={{ 
+          headerShown: false,
+          headerStyle: {
+            backgroundColor: color.cardBackground,
+          },
+          headerTintColor: color.text,
+        }}>
+        <Stack.Screen name="Start" component={Start} />
+        <Stack.Screen name="Activities" component={MyTabs} />
+      </Stack.Navigator>
     </NavigationContainer>
   );
 }

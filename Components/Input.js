@@ -1,9 +1,8 @@
 import { StyleSheet, Text, View, TextInput } from 'react-native';
-import { useState } from 'react';
 import React from 'react';
 import { color, spacing } from './StyleHelper';
 
-export default function Input({ handleInput, text }) {
+export default Input = ({ handleInput, text }) => {
 
   const textChange = (text) => {
     handleInput(text);
