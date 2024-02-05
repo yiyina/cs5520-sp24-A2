@@ -15,6 +15,7 @@ export const spacing = {
     medium: 10,
     large: 20,
     xlarge: 30,
+    xxlarge: 50,
     headerHeight: 100,
 }
 

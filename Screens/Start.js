@@ -4,6 +4,7 @@ import { color, spacing } from '../Components/StyleHelper';
 import { useIsFocused } from '@react-navigation/native';
 import Input from '../Components/Input';
 import Button from '../Components/Button';
+import CommonText from '../Components/CommonText';
 
 export default Start = ({ navigation }) => {
   const [email, setEmail] = useState('');
@@ -86,13 +87,13 @@ export default Start = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-        <Text style={styles.text}>Email Address</Text>
+        <CommonText text={'Email Address'} />
         <Input handleInput={handleEmailInput} text={email}/>
         <Text style={styles.errorMessage}>
           {emailError || ' '}
         </Text>
 
-        <Text style={styles.text}>Phone Number</Text>
+        <CommonText text={'Phone Number'} />
         <Input handleInput={handlePhoneInput} text={phone}/>
         <Text style={styles.errorMessage}>
           {phoneError || ' '}
@@ -121,10 +122,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         paddingLeft: spacing.small,
         paddingRight: spacing.small,
-    },
-    text: {
-        color: color.text,
-        fontWeight: 'bold',
     },
     errorMessage: {
         color: color.message,
