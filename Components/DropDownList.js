@@ -20,6 +20,7 @@ export default DropDownList = ({ placeholder, listItems }) => {
         <DropDownPicker
             style={styles.dropDown}
             labelStyle={styles.label}
+            textStyle={styles.text}
             placeholder= {placeholder}
             placeholderStyle={{color: color.text}}
             open={open}
@@ -35,11 +36,13 @@ export default DropDownList = ({ placeholder, listItems }) => {
 const styles = StyleSheet.create({
     dropDown: {
         backgroundColor: color.transparent,
-        color: color.text,
         borderColor: color.text,
         borderWidth: 2,
     },
     label: {
         color: color.text,
-    }
+    },
+    text: {
+        color: color.text,
+    },
 })
