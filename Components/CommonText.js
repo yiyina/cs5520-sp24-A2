@@ -5,6 +5,7 @@ import { color, spacing } from './StyleHelper';
  * Render the CommonText component with text property.
  * 
  * @param {object} props - text property
+ * @param {string} props.text - text to display
  * @returns {JSX.Element} - CommonText component
  */
 export default CommonText = ({ text }) => {

@@ -7,6 +7,7 @@ import { color, spacing } from './StyleHelper';
  * Render the ActivityItem component.
  * 
  * @param {object} activity - activity object
+ * @param {string} activity.name - activity name
  * @returns {JSX.Element} - ActivityItem component
  */
 const ActivityItem = ({ activity }) => {

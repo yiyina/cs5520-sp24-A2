@@ -8,6 +8,11 @@ import { spacing } from './StyleHelper';
  * and a disabled property to disable the button if needed.
  * 
  * @param {object} props - button properties
+ * @param {string} props.text - button text
+ * @param {string} props.textColor - button text color
+ * @param {function} props.handleClick - button click event handler
+ * @param {boolean} props.disabled - button disabled state
+ * @param {object} props.style - button style
  * @returns {JSX.Element} - Button component
  */
 export default Button = ({ text, textColor, handleClick, disabled, style }) => {
