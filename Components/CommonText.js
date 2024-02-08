@@ -1,6 +1,12 @@
 import { Text, StyleSheet } from 'react-native';
 import { color, spacing } from './StyleHelper';
 
+/**
+ * Render the CommonText component with text property.
+ * 
+ * @param {object} props - text property
+ * @returns {JSX.Element} - CommonText component
+ */
 export default CommonText = ({ text }) => {
     return (
         <Text style={styles.text}>{text}</Text>
