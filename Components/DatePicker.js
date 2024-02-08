@@ -11,7 +11,7 @@ export default DatePicker = ({ selectedDate, onDateChange }) => {
         <View style={styles.datePickerContainer}>
             <DateTimePicker
                 mode="date"
-                display={Platform.OS === 'ios' ? 'inline' : 'default'}
+                display={'inline'}
                 style={styles.datePicker}
                 value={selectedDate || new Date()}
                 onChange={handleOnChange}

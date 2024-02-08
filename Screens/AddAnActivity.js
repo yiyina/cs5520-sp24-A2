@@ -51,8 +51,10 @@ export default AddAnActivities = ({ navigation }) => {
         if (selectedDate) {
             const formattedDate = formatDate(selectedDate);
             setDate(formattedDate); // Update the date state with the formatted date
-            setSelectedDate(selectedDate); // Update the selectedDate state
-            setShowDatePicker(false); 
+            if (event.type === 'set') {
+                setShowDatePicker(false); // 首先隐藏选择器
+                setSelectedDate(selectedDate); // 然后设置日期
+            }
         }
     };
 
