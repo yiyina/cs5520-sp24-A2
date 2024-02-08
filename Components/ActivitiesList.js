@@ -11,14 +11,17 @@ export default ActivitiesList = ({ activityType }) => {
     activityType === 'all' || (activityType === 'special' && activity.special)
   );
 
+  console.log(filteredActivities);
+  
   return (
     <View style={styles.container}>
       {filteredActivities.map((activity, index) => (
         <View key={index} style={styles.activity}>
           <Text style={styles.name}>
-            {activity.activity}
+            {activity.name}
+            {activity.special}
           </Text>
-          {activity.type === 'special' && (
+          {activity.special === true && (
             <View style={styles.iconContainer}>
               <Text style={styles.icon}>!</Text>
             </View>

@@ -71,12 +71,12 @@ export default AddAnActivities = ({ navigation }) => {
             }
 
             console.log('Activity: ', activity, 'Duration: ', duration, 'Date: ', date);
-
+            
             const newActivity = {
                 name: activity, 
                 duration: durationValue,
                 date: date, 
-                special: durationValue > 60 
+                special: durationValue >= 60,
             };
 
             addActivity(newActivity);
