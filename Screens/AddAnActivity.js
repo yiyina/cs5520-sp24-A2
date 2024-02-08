@@ -78,7 +78,7 @@ export default AddAnActivities = ({ navigation }) => {
                 name: activity, 
                 duration: durationValue,
                 date: date, 
-                special: durationValue >= 60,
+                special: (activity === 'Running' || activity === 'Weights') && durationValue >= 60,
             };
 
             addActivity(newActivity);
