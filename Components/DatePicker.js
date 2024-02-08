@@ -1,5 +1,5 @@
 import React from 'react';
-import { Platform, View, StyleSheet } from 'react-native';
+import { View } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 export default DatePicker = ({ selectedDate, onDateChange }) => {
@@ -19,5 +19,3 @@ export default DatePicker = ({ selectedDate, onDateChange }) => {
         </View>
     );
 };
-
-const styles = StyleSheet.create({})

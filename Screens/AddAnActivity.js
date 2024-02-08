@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { StyleSheet, View, Pressable, Platform, Text, Alert } from 'react-native';
+import { StyleSheet, View, Pressable, Alert } from 'react-native';
 import useHeaderNavigation from '../Components/useHeaderNavigation';
 import { color, spacing } from '../Components/StyleHelper';
 import Input from '../Components/Input';

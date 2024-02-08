@@ -64,10 +64,10 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
   iconContainer: {
-    width: 20,
-    height: 20,
+    width: spacing.large,
+    height: spacing.large,
     backgroundColor: color.alert,
-    borderRadius: 10,
+    borderRadius: spacing.medium,
     alignItems: 'center',
     justifyContent: 'center',
     marginRight: spacing.small,
