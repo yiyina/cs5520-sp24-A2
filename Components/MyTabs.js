@@ -5,8 +5,15 @@ import AllActivities from '../Screens/AllActivities';
 import SpecialActivities from '../Screens/SpecialActivities';
 import { color, spacing } from './StyleHelper';
 
+// Create a bottom tab navigator.
 const Tab = createBottomTabNavigator();
 
+/**
+ * Render the MyTabs component.
+ * 
+ * @param {object} props - MyTabs properties
+ * @returns {JSX.Element} - MyTabs component
+ */
 export default MyTabs = () => {
   return (
     <Tab.Navigator
