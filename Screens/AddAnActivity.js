@@ -64,14 +64,21 @@ export default AddAnActivities = ({ navigation }) => {
             Alert.alert('Invalid Input', 'Please check your input values');
             return;
         } else {
-            const durationValue = parseInt(duration.trim());
-            if (isNaN(durationValue) || !Number.isInteger(durationValue)) { // Check if not a valid integer or greater than 60
+            const durationValue = parseInt(duration.trim(), 10);
+            if (isNaN(durationValue) || !Number.isInteger(durationValue)) { // Check if not a valid integer
                 Alert.alert('Invalid Duration', 'Duration must be a valid integer');
                 return;
             }
 
             console.log('Activity: ', activity, 'Duration: ', duration, 'Date: ', date);
-            const newActivity = { activity, duration, date };
+
+            const newActivity = {
+                name: activity, 
+                duration: durationValue,
+                date: date, 
+                special: durationValue > 60 
+            };
+
             addActivity(newActivity);
             navigation.navigate('Activities')
         }
