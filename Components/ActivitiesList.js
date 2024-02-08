@@ -3,6 +3,12 @@ import React, { useContext } from 'react';
 import { ActivityContext } from './ActivityContext';
 import { color, spacing } from './StyleHelper';
 
+/**
+ * Render the ActivityItem component.
+ * 
+ * @param {object} activity - activity object
+ * @returns {JSX.Element} - ActivityItem component
+ */
 const ActivityItem = ({ activity }) => {
   return (
     <View style={styles.activity}>
@@ -20,6 +26,12 @@ const ActivityItem = ({ activity }) => {
   );
 };
 
+/**
+ * Render the ActivitiesList component by filtering activities based on activity type.
+ * 
+ * @param {string} activityType - activity type
+ * @returns {JSX.Element} - ActivitiesList component
+ */
 export default ActivitiesList = ({ activityType }) => {
   const { activities } = useContext(ActivityContext);
 
