@@ -1,6 +1,7 @@
 import React from 'react';
-import { View } from 'react-native';
+import { Platform, View, StyleSheet } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { color, spacing } from './StyleHelper';
 
 /**
  * Render the DatePicker component with selectedDate and onDateChange properties to handle date change events.
@@ -16,11 +17,10 @@ export default DatePicker = ({ selectedDate, onDateChange }) => {
     }
 
     return (
-        <View style={styles.datePickerContainer}>
+        <View>
             <DateTimePicker
                 mode="date"
-                display={'inline'}
-                style={styles.datePicker}
+                display={Platform.OS === 'ios' ? 'inline' : 'default'}
                 value={selectedDate || new Date()}
                 onChange={handleOnChange}
             />
