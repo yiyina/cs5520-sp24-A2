@@ -4,7 +4,12 @@ import { color } from '../Components/StyleHelper';
 import useHeaderNavigation from '../Components/useHeaderNavigation';
 import ActivitiesList from '../Components/ActivitiesList';
 
-
+/**
+ * Render the SpecialActivities screen component.
+ * 
+ * @param {object} navigation - navigation object
+ * @returns {JSX.Element} - SpecialActivities screen component
+ */
 export default SpecialActivities = ({ navigation }) => {
     useHeaderNavigation(navigation);
 
