@@ -6,6 +6,12 @@ import Input from '../Components/Input';
 import Button from '../Components/Button';
 import CommonText from '../Components/CommonText';
 
+/**
+ * Render the Start screen component.
+ * 
+ * @param {object} navigation - navigation object
+ * @returns {JSX.Element} - Start screen component
+ */
 export default Start = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
@@ -36,6 +42,14 @@ export default Start = ({ navigation }) => {
     setPhone(text);
   }
 
+  /**
+   * Validates email and phone number
+   * If valid, navigates to Activities screen
+   * If invalid, displays error message
+   * 
+   * @param {void}
+   * @returns {void}
+   */
   const handlePressStart = () => {
     console.log('Start clicked');
     let isValid = true;
@@ -59,16 +73,34 @@ export default Start = ({ navigation }) => {
     }
   }
 
+  /**
+   * Validate email using regex pattern
+   * 
+   * @param {String} text 
+   * @returns {boolean} - true if valid email, false otherwise
+   */
   const validateEmail = (text) => {
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailPattern.test(text);
   }
 
+  /**
+   * Validate phone number using regex pattern
+   * 
+   * @param {String} text 
+   * @returns {boolean} - true if valid phone number, false otherwise
+   */
   const validatePhone = (text) => {
     const phonePattern = /^\d{10}$/;
     return phonePattern.test(text);
   }
 
+  /**
+   * Reset email, phone, emailError, phoneError, and canSubmit states
+   * 
+   * @param {void}
+   * @returns {void}
+   */
   const handleReset = () => {
     setEmail('');
     setPhone('');
@@ -77,6 +109,12 @@ export default Start = ({ navigation }) => {
     setCanSubmit(false);
   }
 
+  /**
+   * Login success and navigate to Activities screen
+   * 
+   * @param {void}
+   * @returns {void}
+   */
   const handleLogin = () => {
     console.log('Login Success! Your Email: ' + email + ', Phone: ' + phone);
     navigation.navigate('Activities');
@@ -85,6 +123,11 @@ export default Start = ({ navigation }) => {
   const isSubmitDisabled = (!email || !phone);
   const submitButtonColor = isSubmitDisabled ? color.invalid : color.text; // if email or phone is empty, disable the button
 
+  /**
+   * Render the Start screen component
+   * 
+   * @returns {JSX.Element} - Start screen component
+   */
   return (
     <View style={styles.container}>
         <CommonText text={'Email Address'} />
