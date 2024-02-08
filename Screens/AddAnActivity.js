@@ -9,6 +9,12 @@ import DatePicker from '../Components/DatePicker';
 import Button from '../Components/Button';
 import { ActivityContext } from '../Components/ActivityContext';
 
+/**
+ * Render the AddAnActivities screen component.
+ * 
+ * @param {object} navigation - navigation object
+ * @returns {JSX.Element} - AddAnActivities screen component
+ */
 export default AddAnActivities = ({ navigation }) => {
     const [activity, setActivity] = useState('');
     const [duration, setDuration] = useState('');
@@ -18,18 +24,37 @@ export default AddAnActivities = ({ navigation }) => {
 
     useHeaderNavigation(navigation, 'Add');
 
+    // List of activities to be displayed in the dropdown list
     const dropDownListItems = ['Walking', 'Running', 'Swimming', 'Weights', 'Yoga', 'Cycling', 'Hiking'];
 
+    /**
+     * Handle the selected item from the dropdown list
+     * 
+     * @param {string} activity - selected activity
+     * @returns {void}
+     */
     const handleItemSelect = (activity) => {
         console.log('Selected item: ', activity);
         setActivity(activity);
     }
 
+    /** 
+     * Handle the duration input
+     * 
+     * @param {string} duration - duration input
+     * @returns {void}
+     */
     const handleDurationInput = (duration) => {
         console.log('Duration: ', duration);
         setDuration(duration);
     }
 
+    /**
+     * Format the date to a string
+     * 
+     * @param {Date} date - date object
+     * @returns {string} - formatted date string
+     */
     const formatDate = (date) => {
         if (date instanceof Date) {
             return date.toDateString(); 
@@ -37,15 +62,34 @@ export default AddAnActivities = ({ navigation }) => {
         return '';
     }
 
+    /**
+     * Handle the date press, show the date picker
+     * 
+     * @param {void}
+     * @returns {void}
+     */
     const handleDatePress = () => {
         setShowDatePicker(true);
         setDate(formatDate(selectedDate));
     }
 
+    /**
+     * Toggle the date picker
+     * 
+     * @param {void}
+     * @returns {void}
+     */
     const toggleDatePicker = () => {
         setShowDatePicker(!showDatePicker);
     };
 
+    /** 
+     * Handle the date change, update the date state, and show/hide the date picker
+     * 
+     * @param {object} event - event object
+     * @param {Date} selectedDate - selected date
+     * @returns {void}
+     */
     const onDateChange = (event, selectedDate) => {
         console.log('Selected date: ', selectedDate);
         if (selectedDate) {
@@ -58,8 +102,15 @@ export default AddAnActivities = ({ navigation }) => {
         }
     };
 
+    // Get the addActivity function from the ActivityContext
     const { addActivity } = useContext(ActivityContext);
 
+    /**
+     * Handle the save press, validate the input values, and add the activity
+     * 
+     * @param {void}
+     * @returns {void}
+     */
     const handleSavePress = () => {
         console.log('Save Pressed');
         if (activity === null || duration.trim() === '' || date.trim() === '') {
@@ -86,6 +137,12 @@ export default AddAnActivities = ({ navigation }) => {
         }
     }
 
+    /**
+     * Render the AddAnActivities screen component
+     * 
+     * @param {void}
+     * @returns {JSX.Element}
+     */
     return (
         <View style={styles.container}>
             <View style={styles.form}>

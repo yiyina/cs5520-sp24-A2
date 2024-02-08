@@ -76,7 +76,7 @@ export default Start = ({ navigation }) => {
   /**
    * Validate email using regex pattern
    * 
-   * @param {String} text 
+   * @param {string} text 
    * @returns {boolean} - true if valid email, false otherwise
    */
   const validateEmail = (text) => {
@@ -87,7 +87,7 @@ export default Start = ({ navigation }) => {
   /**
    * Validate phone number using regex pattern
    * 
-   * @param {String} text 
+   * @param {string} text 
    * @returns {boolean} - true if valid phone number, false otherwise
    */
   const validatePhone = (text) => {
