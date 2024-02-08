@@ -16,6 +16,7 @@ export default MyTabs = () => {
           height: spacing.headerHeight,
         },
         headerTintColor: color.invalid,
+        headerTitleAlign: 'center',
         tabBarStyle:{
           backgroundColor: color.cardBackground,
         },
