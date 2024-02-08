@@ -23,8 +23,8 @@ export default ActivitiesList = ({ activityType }) => {
               <Text style={styles.icon}>!</Text>
             </View>
           )}
-          <Text>{activity.date}</Text>
-          <Text>{activity.duration}</Text>
+          <Text style={styles.date}>{activity.date}</Text>
+          <Text style={styles.duration}>{activity.duration} min</Text>
         </View>
       ))}
     </View>
@@ -34,7 +34,7 @@ export default ActivitiesList = ({ activityType }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    width: '90%',
+    width: '85%',
     backgroundColor: color.transparent,
     paddingTop: spacing.xlarge,
   },
@@ -46,22 +46,36 @@ const styles = StyleSheet.create({
     marginBottom: spacing.medium,
     height: spacing.xxlarge,
     backgroundColor: color.cardBackground,
-    marginVertical: 5,
+    marginVertical: spacing.small,
   },
   name: {
-    color: 'white',
+    color: color.commonText,
+    flexGrow: 1,
   },
   iconContainer: {
     width: 20,
     height: 20,
-    backgroundColor: 'yellow',
+    backgroundColor: color.alert,
     borderRadius: 10,
     alignItems: 'center',
     justifyContent: 'center',
-    marginRight: 5,
+    marginRight: spacing.small,
   },
   icon: {
     fontSize: 14,
     fontWeight: 'bold',
   },
+  date: {
+    backgroundColor: color.commonText,
+    textAlign: 'center',
+    padding: spacing.small,
+    marginHorizontal: spacing.small,
+  },
+  duration: {
+    backgroundColor: color.commonText,
+    textAlign: 'center',
+    padding: spacing.small,
+    width: spacing.large*4,
+    marginLeft: 'auto',
+  }
 });

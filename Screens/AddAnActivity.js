@@ -15,7 +15,6 @@ export default AddAnActivities = ({ navigation }) => {
     const [date, setDate] = useState('');
     const [showDatePicker, setShowDatePicker] = useState(false);
     const [selectedDate, setSelectedDate] = useState(new Date());
-    const [type, setType] = useState('');
 
     useHeaderNavigation(navigation, 'Add');
 
@@ -71,10 +70,8 @@ export default AddAnActivities = ({ navigation }) => {
                 return;
             }
 
-            setType(durationValue >= 60 ? 'special' : 'all');
-
-            console.log('Type: ', type, 'Activity: ', activity, 'Duration: ', duration, 'Date: ', date);
-            const newActivity = { type, activity, duration, date };
+            console.log('Activity: ', activity, 'Duration: ', duration, 'Date: ', date);
+            const newActivity = { activity, duration, date };
             addActivity(newActivity);
             navigation.navigate('Activities')
         }

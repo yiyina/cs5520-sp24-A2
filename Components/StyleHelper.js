@@ -8,6 +8,7 @@ export const color = {
     transparent: 'rgba(0,0,0,0)',
     invalid: 'white',
     alert: '#FDB80E',
+    commonText: 'white',
 }
 
 export const spacing = {
