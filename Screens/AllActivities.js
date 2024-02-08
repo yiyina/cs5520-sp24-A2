@@ -4,6 +4,12 @@ import { color } from '../Components/StyleHelper';
 import useHeaderNavigation from '../Components/useHeaderNavigation';
 import ActivitiesList from '../Components/ActivitiesList';
 
+/**
+ * Render the AllActivities screen component.
+ * 
+ * @param {object} navigation - navigation object
+ * @returns {JSX.Element} - AllActivities screen component
+ */
 export default AllActivities = ({ navigation }) => {
     useHeaderNavigation(navigation);
 
