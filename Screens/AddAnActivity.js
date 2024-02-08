@@ -15,7 +15,7 @@ export default AddAnActivities = ({ navigation }) => {
     const [date, setDate] = useState('');
     const [showDatePicker, setShowDatePicker] = useState(false);
     const [selectedDate, setSelectedDate] = useState(new Date());
-    const [type, setType] = useState('all');
+    const [type, setType] = useState('');
 
     useHeaderNavigation(navigation, 'Add');
 
@@ -61,16 +61,22 @@ export default AddAnActivities = ({ navigation }) => {
 
     const handleSavePress = () => {
         console.log('Save Pressed');
-        if (activity === '' || duration.trim() === '' || date.trim() === '') {
+        if (activity === null || duration.trim() === '' || date.trim() === '') {
             Alert.alert('Invalid Input', 'Please check your input values');
             return;
         } else {
-            if (duration.trim() > 60) {
-                setType('special');
+            const durationValue = parseInt(duration.trim());
+            if (isNaN(durationValue) || !Number.isInteger(durationValue)) { // Check if not a valid integer or greater than 60
+                Alert.alert('Invalid Duration', 'Duration must be a valid integer');
+                return;
             }
-            console.log('Activity: ', activity, 'Duration: ', duration, 'Date: ', date);
+
+            setType(durationValue >= 60 ? 'special' : 'all');
+
+            console.log('Type: ', type, 'Activity: ', activity, 'Duration: ', duration, 'Date: ', date);
             const newActivity = { type, activity, duration, date };
             addActivity(newActivity);
+            navigation.navigate('Activities')
         }
     }
 

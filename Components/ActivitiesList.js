@@ -60,4 +60,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginRight: 5,
   },
+  icon: {
+    fontSize: 14,
+    fontWeight: 'bold',
+  },
 });
