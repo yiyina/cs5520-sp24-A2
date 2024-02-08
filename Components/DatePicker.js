@@ -1,7 +1,6 @@
 import React from 'react';
 import { Platform, View, StyleSheet } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { color, spacing } from './StyleHelper';
 
 export default DatePicker = ({ selectedDate, onDateChange }) => {
     const handleOnChange = (event, selectedDate) => {
@@ -21,17 +20,4 @@ export default DatePicker = ({ selectedDate, onDateChange }) => {
     );
 };
 
-const styles = StyleSheet.create({
-    datePickerContainer: {
-        padding: spacing.small,
-        flexDirection: 'row',
-        backgroundColor: 'transparent',
-        // borderWidth: 2,
-        // borderColor: color.text,
-        borderRadius: spacing.small,
-        marginTop: spacing.small,
-    },
-    datePicker: {
-        color: 'white',
-    }
-})
+const styles = StyleSheet.create({})

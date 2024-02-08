@@ -99,14 +99,18 @@ export default AddAnActivities = ({ navigation }) => {
                 <Pressable onPress={toggleDatePicker}>
                     <Input handleInput={handleDatePress} text={date} onFocus={handleDatePress}/>
                 </Pressable>
-                {showDatePicker && (
-                    <DatePicker
-                        selectedDate={selectedDate}
-                        onDateChange={onDateChange}
-                    />
-                )}
-                <Button text={'Cancel'} handleClick={()=> navigation.navigate('Activities')}/>
-                <Button text={'Save'} handleClick={handleSavePress}/>
+                <View style={styles.datePickerContainer}>
+                    {showDatePicker && (
+                        <DatePicker
+                            selectedDate={selectedDate}
+                            onDateChange={onDateChange}
+                        />
+                    )}
+                </View>
+                <View style={styles.buttonContainer}>
+                    <Button text={'Cancel'} handleClick={()=> navigation.navigate('Activities')} style={styles.cancelButton}/>
+                    <Button text={'Save'} handleClick={handleSavePress} style={styles.saveButton}/>
+                </View>
             </View>
         </View>
     );
@@ -124,5 +128,20 @@ const styles = StyleSheet.create({
     text: {
         color: color.text,
         fontWeight: 'bold',
+    },
+    datePickerContainer: {
+        height: spacing.xxlarge*6,
+    },
+    buttonContainer: { 
+        flexDirection: 'row', 
+        justifyContent: 'space-between', 
+        marginTop: spacing.large,
+        paddingHorizontal: spacing.xxlarge,
+    },
+    cancelButton: {
+        color: color.warning,
+    },
+    saveButton: {
+        color: color.text,
     },
 });
