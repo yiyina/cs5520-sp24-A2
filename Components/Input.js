@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, TextInput } from 'react-native';
 import React from 'react';
 import { color, spacing } from './StyleHelper';
 
-export default Input = ({ handleInput, text }) => {
+export default Input = ({ text, handleInput, onFocus }) => {
 
   const textChange = (text) => {
     handleInput(text);
@@ -10,7 +10,11 @@ export default Input = ({ handleInput, text }) => {
 
   return (
     <View>
-      <TextInput style={styles.box} value={text} onChangeText={textChange} />
+      <TextInput 
+        style={styles.box} 
+        value={text} 
+        onChangeText={textChange}
+        onFocus={onFocus} />
     </View>
   )
 }

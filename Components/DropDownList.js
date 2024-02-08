@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet } from 'react-native';
 import DropDownPicker from "react-native-dropdown-picker";
-import { color, spacing } from './StyleHelper';
+import { color } from './StyleHelper';
 
-export default DropDownList = ({ placeholder, listItems }) => {
+export default DropDownList = ({ placeholder, listItems, handleItemSelect }) => {
     const [open, setOpen] = useState(false);
     const [value, setValue] = useState(null);
     const [items, setItems] = useState([]);
@@ -14,7 +14,12 @@ export default DropDownList = ({ placeholder, listItems }) => {
             const transformedList = listItems.map(item => ({ label: item, value: item }));
             setItems(transformedList);
         }
-    }, [listItems]);
+    }, []);
+
+    const handleValueChange = (itemValue) => {
+        setValue(itemValue);
+        handleItemSelect(itemValue);
+    }
 
     return (
         <DropDownPicker
@@ -29,6 +34,7 @@ export default DropDownList = ({ placeholder, listItems }) => {
             setOpen={setOpen}
             setValue={setValue}
             setItems={setItems}
+            onChangeValue={handleValueChange}
         />
     )
 }

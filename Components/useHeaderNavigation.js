@@ -17,12 +17,6 @@ const useHeaderNavigation = (navigation, type) => {
       });
     } else {
       navigation.setOptions({
-        headerLeft: () => (
-          <Button 
-            text="Logout" 
-            textColor={color.invalid}
-            handleClick={() => navigation.navigate('Start')} />
-        ),
         headerRight: () => (
           <Button 
             text="Add" 
