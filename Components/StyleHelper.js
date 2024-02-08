@@ -1,3 +1,4 @@
+// Purpose: To store all the style related constants in one place.
 export const color = {
     background: '#AAA8C8',
     cardBackground: '#363679',
@@ -11,6 +12,7 @@ export const color = {
     commonText: 'white',
 }
 
+// Spacing constants.
 export const spacing = {
     small: 5,
     medium: 10,
@@ -20,6 +22,7 @@ export const spacing = {
     headerHeight: 100,
 }
 
+// Font size constants.
 export const fontSize = {
     small: 12,
     medium: 18,
