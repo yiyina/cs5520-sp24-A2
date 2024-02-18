@@ -6,7 +6,6 @@ import Input from '../Components/Input';
 import DropDownList from '../Components/DropDownList';
 import CommonText from '../Components/CommonText';
 import DatePicker from '../Components/DatePicker';
-import Button from '../Components/Button';
 import { ActivityContext } from '../Components/ActivityContext';
 import PressableButton from '../Components/PressableButton';
 
@@ -156,8 +155,6 @@ export default AddAnActivities = ({ navigation }) => {
                     )}
                 </View>
                 <View style={styles.buttonContainer}>
-                    {/* <Button text={'Cancel'} handleClick={()=> navigation.navigate('Activities')} style={styles.cancelButton}/>
-                    <Button text={'Save'} handleClick={handleSavePress} style={styles.saveButton}/> */}
                     <PressableButton 
                         customStyle={styles.cancelButton} 
                         onPressFunction={()=> navigation.navigate('Activities')} 
