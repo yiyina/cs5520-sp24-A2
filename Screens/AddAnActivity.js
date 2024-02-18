@@ -73,16 +73,6 @@ export default AddAnActivities = ({ navigation }) => {
         setDate(formatDate(selectedDate));
     }
 
-    /**
-     * Toggle the date picker
-     * 
-     * @param {void}
-     * @returns {void}
-     */
-    const toggleDatePicker = () => {
-        setShowDatePicker(!showDatePicker);
-    };
-
     /** 
      * Handle the date change, update the date state, and show/hide the date picker
      * 
