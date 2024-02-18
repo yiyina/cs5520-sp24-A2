@@ -33,10 +33,6 @@ const useHeaderNavigation = (navigation, type) => {
             color={color.commonText}  
             onPress={() => navigation.navigate('Add An Activity')}
             style={{ marginRight: spacing.large }}/>
-          // <Button 
-          //   text="Add" 
-          //   textColor={color.alert}
-          //   handleClick={() => navigation.navigate('Add An Activity')} />
         ),
       });
     }
