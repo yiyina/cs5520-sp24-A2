@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { StyleSheet, View, Pressable, Alert } from 'react-native';
+import { StyleSheet, View, Alert } from 'react-native';
 import useHeaderNavigation from '../Components/useHeaderNavigation';
 import { color, spacing } from '../Components/StyleHelper';
 import Input from '../Components/Input';
@@ -155,9 +155,7 @@ export default AddAnActivities = ({ navigation }) => {
                 <CommonText />
 
                 <CommonText text={'Date *'}/>
-                <Pressable onPress={toggleDatePicker}>
-                    <Input handleInput={handleDatePress} text={date} onFocus={handleDatePress}/>
-                </Pressable>
+                <Input text={date} onPressIn={handleDatePress}/>
                 <View style={styles.datePickerContainer}>
                     {showDatePicker && (
                         <DatePicker
