@@ -118,7 +118,7 @@ export default AddAnActivities = ({ navigation }) => {
             return;
         } else {
             const durationValue = parseInt(duration.trim(), 10);
-            if (isNaN(durationValue) || !Number.isInteger(durationValue)) { // Check if not a valid integer
+            if (isNaN(durationValue) || !Number.isInteger(durationValue) || durationValue < 0) { // Check if not a valid integer
                 Alert.alert('Invalid Duration', 'Duration must be a valid integer');
                 return;
             }
