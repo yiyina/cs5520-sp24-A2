@@ -120,7 +120,7 @@ export default Start = ({ navigation }) => {
     navigation.navigate('Activities');
   }
 
-  const isSubmitDisabled = (!email || !phone);
+  const isSubmitDisabled = !email && !phone ? true : false; // if email or phone is empty, disable the button
   const submitButtonColor = isSubmitDisabled ? color.invalid : color.text; // if email or phone is empty, disable the button
 
   /**
