@@ -3,7 +3,8 @@ import { Text } from 'react-native';
 import React from 'react';
 import AllActivities from '../Screens/AllActivities';
 import SpecialActivities from '../Screens/SpecialActivities';
-import { color, spacing } from './StyleHelper';
+import { color, spacing, fontSize } from './StyleHelper';
+import { FontAwesome } from '@expo/vector-icons';
 
 // Create a bottom tab navigator.
 const Tab = createBottomTabNavigator();
@@ -35,7 +36,7 @@ export default MyTabs = () => {
         component={AllActivities} 
         options={{
           tabBarIcon: ({ color }) => (
-            <Text style={{ color, fontWeight: 'bold' }}>$</Text> 
+            <FontAwesome name="dollar" size={fontSize.medium} color={color} /> 
           ),
           tabBarLabel: ({ color }) => (
             <Text style={{ color }}>All Activities</Text>
@@ -47,7 +48,7 @@ export default MyTabs = () => {
         component={SpecialActivities} 
         options={{
           tabBarIcon: ({ color }) => (
-            <Text style={{ color, fontWeight: 'bold' }}>!</Text> 
+            <FontAwesome name="exclamation" size={fontSize.medium} color={color} />
           ),
           tabBarLabel: ({ color }) => (
             <Text style={{ color }}>Special Activities</Text>
