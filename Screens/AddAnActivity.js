@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { StyleSheet, View, Alert } from 'react-native';
+import { StyleSheet, View, Alert, Text } from 'react-native';
 import useHeaderNavigation from '../Components/useHeaderNavigation';
 import { color, spacing } from '../Components/StyleHelper';
 import Input from '../Components/Input';
@@ -8,6 +8,7 @@ import CommonText from '../Components/CommonText';
 import DatePicker from '../Components/DatePicker';
 import Button from '../Components/Button';
 import { ActivityContext } from '../Components/ActivityContext';
+import PressableButton from '../Components/PressableButton';
 
 /**
  * Render the AddAnActivities screen component.
@@ -155,8 +156,20 @@ export default AddAnActivities = ({ navigation }) => {
                     )}
                 </View>
                 <View style={styles.buttonContainer}>
-                    <Button text={'Cancel'} handleClick={()=> navigation.navigate('Activities')} style={styles.cancelButton}/>
-                    <Button text={'Save'} handleClick={handleSavePress} style={styles.saveButton}/>
+                    {/* <Button text={'Cancel'} handleClick={()=> navigation.navigate('Activities')} style={styles.cancelButton}/>
+                    <Button text={'Save'} handleClick={handleSavePress} style={styles.saveButton}/> */}
+                    <PressableButton 
+                        customStyle={styles.cancelButton} 
+                        onPressFunction={()=> navigation.navigate('Activities')} 
+                        pressedStyle={styles.pressedButton}>
+                        <Text style={styles.buttonText}>Cancel</Text>
+                    </PressableButton>
+                    <PressableButton 
+                        customStyle={styles.saveButton} 
+                        onPressFunction={handleSavePress} 
+                        pressedStyle={styles.pressedButton}>
+                        <Text style={styles.buttonText}>Save</Text>
+                    </PressableButton>
                 </View>
             </View>
         </View>
@@ -183,12 +196,19 @@ const styles = StyleSheet.create({
         flexDirection: 'row', 
         justifyContent: 'space-between', 
         marginTop: spacing.large,
-        paddingHorizontal: spacing.xxlarge,
+        paddingHorizontal: spacing.large,
+    },
+    buttonText: {
+        color: color.commonText,
+        textAlign: 'center',
     },
     cancelButton: {
-        color: color.warning,
+        backgroundColor: color.warning,
     },
     saveButton: {
-        color: color.text,
+        backgroundColor: color.cardBackground,
     },
+    pressedButton: {
+        opacity: 0.5,
+    }
 });
