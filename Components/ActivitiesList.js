@@ -2,6 +2,7 @@ import { StyleSheet, Text, View, FlatList } from 'react-native';
 import React, { useContext } from 'react';
 import { ActivityContext } from './ActivityContext';
 import { color, spacing } from './StyleHelper';
+import { FontAwesome } from '@expo/vector-icons';
 
 /**
  * Render the ActivityItem component.
@@ -17,9 +18,11 @@ const ActivityItem = ({ activity }) => {
         {activity.name}
       </Text>
       {activity.special === true && (
-        <View style={styles.iconContainer}>
-          <Text style={styles.icon}>!</Text>
-        </View>
+        <FontAwesome 
+          name="exclamation-triangle" 
+          size={spacing.large} 
+          color={color.alert}
+          style={{marginRight:spacing.small}} />
       )}
       <Text style={styles.date}>{activity.date}</Text>
       <Text style={styles.duration}>{activity.duration} min</Text>
