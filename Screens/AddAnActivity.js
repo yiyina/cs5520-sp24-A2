@@ -8,6 +8,9 @@ import CommonText from '../Components/CommonText';
 import DatePicker from '../Components/DatePicker';
 import { ActivityContext } from '../Components/ActivityContext';
 import PressableButton from '../Components/PressableButton';
+import { firestore } from '../firebaseConfig';
+import FirestoreService from '../Service/FirestoreService';
+
 
 /**
  * Render the AddAnActivities screen component.
@@ -101,7 +104,7 @@ export default AddAnActivities = ({ navigation }) => {
      * @param {void}
      * @returns {void}
      */
-    const handleSavePress = () => {
+    const handleSavePress = async () => {
         console.log('Save Pressed');
         if (activityName === null || duration.trim() === '' || date.trim() === '') {
             Alert.alert('Invalid Input', 'Please check your input values');
@@ -123,8 +126,14 @@ export default AddAnActivities = ({ navigation }) => {
             important: (activityName === 'Running' || activityName === 'Weights') && durationValue >= 60,
         };
 
-        addActivity(newActivity);
-        navigation.navigate('Activities')
+        // addActivity(newActivity);
+        // navigation.navigate('Activities')
+        try {
+            await FirestoreService.addActivity(newActivity);
+            navigation.navigate('Activities');
+        } catch (error) {
+            console.error('Error adding activity: ', error);
+        }
 
     }
 

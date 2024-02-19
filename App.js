@@ -9,10 +9,6 @@ import AddAnActivity from './Screens/AddAnActivity';
 import { ActivityProvider } from './Components/ActivityContext'
 
 import { firestore } from './firebaseConfig';
-// import { initializeApp } from 'firebase/app';
-// import 'firebase/firestore';
-
-// const firebaseApp = initializeApp(firebaseConfig);
 
 const Stack = createStackNavigator();
 

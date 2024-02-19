@@ -1,23 +1,22 @@
-import { firebase } from "@react-native-firebase/database";
-
-const firestore = firebase.firestore();
-
+// import { firebase } from "@react-native-firebase/database";
+import { firestore } from "../firebaseConfig";
+import { collection, addDoc, getDocs, updateDoc, deleteDoc, doc } from "firebase/firestore";
 
 const FirestoreService = {
     async addActivity(newActivity) {
         try {
-            const documentRef = await firestore.collection('activities').add(newActivity);
-            console.log('Activity added with ID: ', documentRef.id);
-            return documentRef.id; // 返回新添加的活动的 ID
+            const docRef = await addDoc(collection(firestore, 'activities'), newActivity);
+            console.log('Activity added with ID: ', docRef.id);
+            return docRef.id;
         } catch (error) {
             console.error("Error adding activity: ", error);
-            throw error; // 向调用者抛出错误
+            throw error; 
         }
     },
   
     async getActivities() {
         try {
-            const snapshot = await firestore.collection('activities').get();
+            const snapshot = await getDocs(collection(firestore, 'activities'));
             return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
         } catch (error) {
             console.error("Error getting activities: ", error);
@@ -27,7 +26,8 @@ const FirestoreService = {
   
     async updateActivity(activityId, updatedActivity) {
         try {
-            await firestore.collection('activities').doc(activityId).update(updatedActivity);
+            const activityDocRef = doc(firestore, 'activities', activityId);
+            await updateDoc(activityDocRef, updatedActivity);
             console.log('Activity updated with ID: ', activityId);
         } catch (error) {
             console.error("Error updating activity: ", error);
@@ -37,7 +37,8 @@ const FirestoreService = {
   
     async deleteActivity(activityId) {
         try {
-            await firestore.collection('activities').doc(activityId).delete();
+            const activityDocRef = doc(firestore, 'activities', activityId);
+            await deleteDoc(activityDocRef);
             console.log('Activity deleted with ID: ', activityId);
         } catch (error) {
             console.error("Error deleting activity: ", error);
