@@ -252,7 +252,7 @@ export default AddAnActivities = ({ navigation, route }) => {
                         />
                     )}
                 </View>
-                {
+                {   !showDatePicker && 
                     route.params && route.params.activity.important && (
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                             <Text style={styles.specialInfo}>This item is marked as special. Select the checkbox if you would like to approve it.</Text>
@@ -263,20 +263,22 @@ export default AddAnActivities = ({ navigation, route }) => {
                         </View>
                     )
                 }
-                <View style={styles.buttonContainer}>
-                    <PressableButton 
-                        customStyle={styles.cancelButton} 
-                        onPressFunction={()=> navigation.navigate('Activities')} 
-                        pressedStyle={styles.pressedButton}>
-                        <Text style={styles.buttonText}>Cancel</Text>
-                    </PressableButton>
-                    <PressableButton 
-                        customStyle={styles.saveButton} 
-                        onPressFunction={handleSavePress} 
-                        pressedStyle={styles.pressedButton}>
-                        <Text style={styles.buttonText}>Save</Text>
-                    </PressableButton>
-                </View>
+                {   !showDatePicker && 
+                    <View style={styles.buttonContainer}>
+                        <PressableButton 
+                            customStyle={styles.cancelButton} 
+                            onPressFunction={()=> navigation.navigate('Activities')} 
+                            pressedStyle={styles.pressedButton}>
+                            <Text style={styles.buttonText}>Cancel</Text>
+                        </PressableButton>
+                        <PressableButton 
+                            customStyle={styles.saveButton} 
+                            onPressFunction={handleSavePress} 
+                            pressedStyle={styles.pressedButton}>
+                            <Text style={styles.buttonText}>Save</Text>
+                        </PressableButton>
+                    </View>
+                }
             </View>
         </View>
     );
@@ -296,7 +298,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     datePickerContainer: {
-        height: spacing.xxlarge*7,
+        height: spacing.xxlarge*5,
     },
     buttonContainer: { 
         flexDirection: 'row', 
