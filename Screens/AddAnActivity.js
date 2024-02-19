@@ -104,7 +104,7 @@ export default AddAnActivities = ({ navigation }) => {
      * @param {void}
      * @returns {void}
      */
-    const handleSavePress = async () => {
+    const handleSavePress = () => {
         console.log('Save Pressed');
         if (activityName === null || duration.trim() === '' || date.trim() === '') {
             Alert.alert('Invalid Input', 'Please check your input values');
@@ -128,13 +128,24 @@ export default AddAnActivities = ({ navigation }) => {
 
         // addActivity(newActivity);
         // navigation.navigate('Activities')
+        addActivityToFirestore(newActivity);
+
+    }
+
+    /**
+     * Add the activity to Firestore
+     *  
+     * @param {object} newActivity - new activity object
+     * @returns {void}
+     * @throws {error} - error adding activity
+     */
+    const addActivityToFirestore = async (newActivity) => {
         try {
             await FirestoreService.addActivity(newActivity);
             navigation.navigate('Activities');
         } catch (error) {
             console.error('Error adding activity: ', error);
         }
-
     }
 
     /**
