@@ -25,7 +25,7 @@ export default AddAnActivities = ({ navigation, route }) => {
     const [showDatePicker, setShowDatePicker] = useState(false);
     const [selectedDate, setSelectedDate] = useState(new Date());
 
-    useHeaderNavigation(navigation, route.params? 'Edit' : 'Add');
+    useHeaderNavigation(navigation, route, route.params? 'Edit' : 'Add');
 
     // List of activities to be displayed in the dropdown list
     const dropDownListItems = ['Walking', 'Running', 'Swimming', 'Weights', 'Yoga', 'Cycling', 'Hiking'];
@@ -34,10 +34,6 @@ export default AddAnActivities = ({ navigation, route }) => {
     React.useEffect(() => {
         if (route.params) {
             const { activity } = route.params;
-            console.log('Route params: ', route.params);
-            console.log('Activity: ', activity.activity);
-            console.log('Duration: ', activity.duration);
-            console.log('Date: ', activity.date);
             setActivityName(activity.activity);
             setDuration(activity.duration.toString());
             setDate(activity.date);
