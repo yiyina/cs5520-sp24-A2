@@ -10,11 +10,15 @@
   },
   "dependencies": {
     "@react-native-community/datetimepicker": "7.6.1",
+    "@react-native-firebase/app": "^18.8.0",
+    "@react-native-firebase/database": "^18.8.0",
+    "@react-native-firebase/firestore": "^18.8.0",
     "@react-navigation/bottom-tabs": "^6.5.11",
     "@react-navigation/native-stack": "^6.9.17",
     "@react-navigation/stack": "^6.3.20",
     "expo": "~50.0.5",
     "expo-status-bar": "~1.11.1",
+    "firebase": "^10.8.0",
     "react": "18.2.0",
     "react-native": "0.73.2",
     "react-native-dropdown-picker": "^5.4.6"

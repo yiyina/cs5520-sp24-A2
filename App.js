@@ -1,7 +1,5 @@
-import { StatusBar } from 'expo-status-bar';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StyleSheet } from 'react-native';
 import React from 'react';
 import { color, spacing } from './Components/StyleHelper';
@@ -9,6 +7,12 @@ import Start from './Screens/Start';
 import MyTabs from './Components/MyTabs';
 import AddAnActivity from './Screens/AddAnActivity';
 import { ActivityProvider } from './Components/ActivityContext'
+
+import firebaseConfig from './firebaseConfig';
+import { initializeApp } from 'firebase/app';
+import 'firebase/firestore';
+
+const firebaseApp = initializeApp(firebaseConfig);
 
 const Stack = createStackNavigator();
 
