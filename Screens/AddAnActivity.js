@@ -174,13 +174,30 @@ export default AddAnActivities = ({ navigation, route }) => {
      * @returns {void}
      */
     const updateActivityInFirestore = async (activityId, updatedActivity) => {
-        try {
-            await FirestoreService.updateActivity(activityId, updatedActivity);
-            console.log('Activity edit + Navigated to Activities screen');
-            navigation.navigate('Activities');
-        } catch (error) {
-            console.error('Error updating activity: ', error);
-        }
+        Alert.alert(
+            "Important",
+            "Are you sure you want to save these changes?",
+            [
+                {
+                    text: "No",
+                    onPress: () => console.log("Cancel Pressed"),
+                    style: "cancel"
+                },
+                { 
+                    text: "Yes", 
+                    onPress: async () => {
+                        try {
+                            await FirestoreService.updateActivity(activityId, updatedActivity);
+                            console.log('Activity edit + Navigated to Activities screen');
+                            navigation.navigate('Activities');
+                        } catch (error) {
+                            console.error('Error updating activity: ', error);
+                        }
+                    }
+                }
+            ],
+            { cancelable: false }
+        )
     }
 
     /**
