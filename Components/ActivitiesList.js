@@ -1,10 +1,12 @@
-import { StyleSheet, Text, View, FlatList } from 'react-native';
+import { StyleSheet, Text, View, FlatList, Pressable } from 'react-native';
 import React, { useState, useContext, useEffect } from 'react';
 // import { ActivityContext } from './ActivityContext';
 import { color, spacing } from './StyleHelper';
 import { FontAwesome } from '@expo/vector-icons';
 import FirestoreService from '../Service/FirestoreService';
 import { useIsFocused } from '@react-navigation/native';
+import useHeaderNavigation from '../Components/useHeaderNavigation';
+import { useNavigation } from '@react-navigation/native';
 
 /**
  * Render the ActivityItem component.
@@ -14,9 +16,13 @@ import { useIsFocused } from '@react-navigation/native';
  * @returns {JSX.Element} - ActivityItem component
  */
 const ActivityItem = ({ item }) => {
+  const navigation = useNavigation();
 
   return (
-    <View style={styles.activity}>
+    <Pressable 
+      style={styles.activity} 
+      onPress={() => navigation.navigate('Add An Activity', { activity: item })}
+    >
       <Text style={styles.name}>
         {item.activity}
       </Text>
@@ -30,7 +36,7 @@ const ActivityItem = ({ item }) => {
       {/* <Text style={styles.date}>{item.date}</Text> */}
       <Text style={styles.date}>{item.date}</Text>
       <Text style={styles.duration}>{item.duration} min</Text>
-    </View>
+    </Pressable>
   );
 };
 

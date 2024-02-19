@@ -1,4 +1,3 @@
-// import { firebase } from "@react-native-firebase/database";
 import { firestore } from "../firebaseConfig";
 import { collection, addDoc, getDocs, query, orderBy, updateDoc, deleteDoc, doc } from "firebase/firestore";
 

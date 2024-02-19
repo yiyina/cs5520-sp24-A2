@@ -6,7 +6,7 @@ import Input from '../Components/Input';
 import DropDownList from '../Components/DropDownList';
 import CommonText from '../Components/CommonText';
 import DatePicker from '../Components/DatePicker';
-import { ActivityContext } from '../Components/ActivityContext';
+// import { ActivityContext } from '../Components/ActivityContext';
 import PressableButton from '../Components/PressableButton';
 import FirestoreService from '../Service/FirestoreService';
 
@@ -15,19 +15,37 @@ import FirestoreService from '../Service/FirestoreService';
  * Render the AddAnActivities screen component.
  * 
  * @param {object} navigation - navigation object
+ * @param {object} route - route object containing parameters
  * @returns {JSX.Element} - AddAnActivities screen component
  */
-export default AddAnActivities = ({ navigation }) => {
+export default AddAnActivities = ({ navigation, route }) => {
     const [activityName, setActivityName] = useState('');
     const [duration, setDuration] = useState('');
     const [date, setDate] = useState('');
     const [showDatePicker, setShowDatePicker] = useState(false);
     const [selectedDate, setSelectedDate] = useState(new Date());
 
-    useHeaderNavigation(navigation, 'Add');
+    useHeaderNavigation(navigation, route.params? 'Edit' : 'Add');
 
     // List of activities to be displayed in the dropdown list
     const dropDownListItems = ['Walking', 'Running', 'Swimming', 'Weights', 'Yoga', 'Cycling', 'Hiking'];
+
+    // Initialize form fields with values from route params if available (for edit mode)
+    React.useEffect(() => {
+        if (route.params) {
+            const { activity } = route.params;
+            console.log('Route params: ', route.params);
+            console.log('Activity: ', activity.activity);
+            console.log('Duration: ', activity.duration);
+            console.log('Date: ', activity.date);
+            setActivityName(activity.activity);
+            setDuration(activity.duration.toString());
+            setDate(activity.date);
+            const parsedDate = new Date(activity.date);
+            setSelectedDate(parsedDate);
+            setShowDatePicker(false);
+        }
+    }, [route.params]);
 
     /**
      * Handle the selected item from the dropdown list
@@ -95,7 +113,7 @@ export default AddAnActivities = ({ navigation }) => {
     };
 
     // Get the addActivity function from the ActivityContext
-    const { addActivity } = useContext(ActivityContext);
+    // const { addActivity } = useContext(ActivityContext);
 
     /**
      * Handle the save press, validate the input values, and add the activity
@@ -125,9 +143,14 @@ export default AddAnActivities = ({ navigation }) => {
             important: (activityName === 'Running' || activityName === 'Weights') && durationValue >= 60,
         };
 
+        if (route.params) {
+            updateActivityInFirestore(route.params.activity.id, newActivity);
+        } else {
+            addActivityToFirestore(newActivity);
+        }
+
         // addActivity(newActivity);
         // navigation.navigate('Activities')
-        addActivityToFirestore(newActivity);
     }
 
     /**
@@ -148,6 +171,23 @@ export default AddAnActivities = ({ navigation }) => {
     }
 
     /**
+     * Update the activity in Firestore
+     * 
+     * @param {string} activityId - activity ID
+     * @param {object} updatedActivity - updated activity object
+     * @returns {void}
+     */
+    const updateActivityInFirestore = async (activityId, updatedActivity) => {
+        try {
+            await FirestoreService.updateActivity(activityId, updatedActivity);
+            console.log('Activity edit + Navigated to Activities screen');
+            navigation.navigate('Activities');
+        } catch (error) {
+            console.error('Error updating activity: ', error);
+        }
+    }
+
+    /**
      * Render the AddAnActivities screen component
      * 
      * @param {void}
@@ -157,7 +197,12 @@ export default AddAnActivities = ({ navigation }) => {
         <View style={styles.container}>
             <View style={styles.form}>
                 <CommonText text={'Activity *'} />
-                <DropDownList placeholder={'Select An Activity'} listItems={dropDownListItems} handleItemSelect={handleItemSelect}/>
+                <DropDownList 
+                    placeholder={'Select An Activity'} 
+                    listItems={dropDownListItems} 
+                    handleItemSelect={handleItemSelect}
+                    selectedItem={activityName}
+                />
                 <CommonText />
                 
                 <CommonText text={'Duration (min)*'}/>

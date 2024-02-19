@@ -12,9 +12,9 @@ import { color } from './StyleHelper';
  * @param {function} props.handleItemSelect - dropdown item select handler
  * @returns {JSX.Element} - DropDownList component
  */
-export default DropDownList = ({ placeholder, listItems, handleItemSelect }) => {
+export default DropDownList = ({ placeholder, listItems, handleItemSelect, selectedItem }) => {
     const [open, setOpen] = useState(false);
-    const [value, setValue] = useState(null);
+    const [value, setValue] = useState(selectedItem || null);
     const [items, setItems] = useState([]);
 
     // The initial value of items should be set during component mounting.
@@ -23,7 +23,13 @@ export default DropDownList = ({ placeholder, listItems, handleItemSelect }) => 
             const transformedList = listItems.map(item => ({ label: item, value: item }));
             setItems(transformedList);
         }
-    }, []);
+    }, [listItems]);
+
+    useEffect(() => {
+        if (selectedItem !== value && selectedItem !== null) {
+            setValue(selectedItem);
+        }
+    }, [selectedItem]);
 
     /**
      * Handle the selected item from the dropdown list
@@ -32,8 +38,10 @@ export default DropDownList = ({ placeholder, listItems, handleItemSelect }) => 
      * @returns {void}
      */
     const handleValueChange = (itemValue) => {
-        setValue(itemValue);
-        handleItemSelect(itemValue);
+        if (itemValue !== null && itemValue !== '') {
+            setValue(itemValue);
+            handleItemSelect(itemValue);
+        }
     }
 
     return (
