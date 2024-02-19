@@ -1,10 +1,8 @@
 import { StyleSheet, View } from 'react-native';
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { color } from '../Components/StyleHelper';
 import useHeaderNavigation from '../Components/useHeaderNavigation';
 import ActivitiesList from '../Components/ActivitiesList';
-import { collection, onSnapshot } from "firebase/firestore";
-import { firestore } from '../firebaseConfig';
 
 /**
  * Render the AllActivities screen component.

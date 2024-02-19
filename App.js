@@ -6,9 +6,7 @@ import { color, spacing } from './Components/StyleHelper';
 import Start from './Screens/Start';
 import MyTabs from './Components/MyTabs';
 import AddAnActivity from './Screens/AddAnActivity';
-import { ActivityProvider } from './Components/ActivityContext'
-
-import { firestore } from './firebaseConfig';
+import { ActivityProvider } from './Components/ActivityContext';
 
 const Stack = createStackNavigator();
 
@@ -44,11 +42,4 @@ export default App = () => {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: color.background,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+const styles = StyleSheet.create({});

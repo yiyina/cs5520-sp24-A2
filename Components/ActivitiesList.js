@@ -1,11 +1,10 @@
-import { StyleSheet, Text, View, FlatList, Pressable } from 'react-native';
+import { StyleSheet, Text, FlatList, Pressable } from 'react-native';
 import React, { useState, useContext, useEffect } from 'react';
 // import { ActivityContext } from './ActivityContext';
 import { color, spacing } from './StyleHelper';
 import { FontAwesome } from '@expo/vector-icons';
 import FirestoreService from '../Service/FirestoreService';
 import { useIsFocused } from '@react-navigation/native';
-import useHeaderNavigation from '../Components/useHeaderNavigation';
 import { useNavigation } from '@react-navigation/native';
 
 /**
