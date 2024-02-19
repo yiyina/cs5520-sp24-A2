@@ -1,5 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { StyleSheet, View, Alert, Text } from 'react-native';
+import Checkbox from 'expo-checkbox';
 import useHeaderNavigation from '../Components/useHeaderNavigation';
 import { color, spacing } from '../Components/StyleHelper';
 import Input from '../Components/Input';
@@ -24,8 +25,14 @@ export default AddAnActivities = ({ navigation, route }) => {
     const [date, setDate] = useState('');
     const [showDatePicker, setShowDatePicker] = useState(false);
     const [selectedDate, setSelectedDate] = useState(new Date());
+    const [isCheckBoxChecked, setIsCheckBoxChecked] = useState(false);
+
+    const handleCheckboxChange = () => {
+        setIsCheckBoxChecked(!isCheckBoxChecked);
+    };
 
     useHeaderNavigation(navigation, route, route.params? 'Edit' : 'Add');
+    console.log("route information:", route.params.activity.important);
 
     // List of activities to be displayed in the dropdown list
     const dropDownListItems = ['Walking', 'Running', 'Swimming', 'Weights', 'Yoga', 'Cycling', 'Hiking'];
@@ -185,20 +192,27 @@ export default AddAnActivities = ({ navigation, route }) => {
                 },
                 { 
                     text: "Yes", 
-                    onPress: async () => {
-                        try {
-                            await FirestoreService.updateActivity(activityId, updatedActivity);
-                            console.log('Activity edit + Navigated to Activities screen');
-                            navigation.navigate('Activities');
-                        } catch (error) {
-                            console.error('Error updating activity: ', error);
-                        }
-                    }
+                    onPress: () => updateActivity()
                 }
             ],
             { cancelable: false }
         )
     }
+
+    const updateActivity = async () => {
+        const updatedActivity = {
+            ...route.params.activity,
+            important: isSpecialApproved ? false : route.params.activity.important
+        };
+    
+        try {
+            await FirestoreService.updateActivity(route.params.activity.id, updatedActivity);
+            console.log('Activity updated');
+            navigation.navigate('Activities');
+        } catch (error) {
+            console.error('Error updating activity: ', error);
+        }
+    };
 
     /**
      * Render the AddAnActivities screen component
@@ -232,6 +246,17 @@ export default AddAnActivities = ({ navigation, route }) => {
                         />
                     )}
                 </View>
+                {
+                    route.params.activity.important && (
+                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                            <Text style={styles.specialInfo}>This item is marked as special. Select the checkbox if you would like to approve it.</Text>
+                            <Checkbox
+                                value={isCheckBoxChecked}
+                                onValueChange={handleCheckboxChange}
+                            />
+                        </View>
+                    )
+                }
                 <View style={styles.buttonContainer}>
                     <PressableButton 
                         customStyle={styles.cancelButton} 
@@ -285,5 +310,11 @@ const styles = StyleSheet.create({
     },
     pressedButton: {
         opacity: 0.5,
-    }
+    },
+    specialInfo: {
+        color: color.cardBackground,
+        fontWeight: 'bold',
+        width: '80%',
+        marginLeft: spacing.large,
+    },
 });
