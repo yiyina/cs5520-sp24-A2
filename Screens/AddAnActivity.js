@@ -16,7 +16,7 @@ import PressableButton from '../Components/PressableButton';
  * @returns {JSX.Element} - AddAnActivities screen component
  */
 export default AddAnActivities = ({ navigation }) => {
-    const [activity, setActivity] = useState('');
+    const [activityName, setActivityName] = useState('');
     const [duration, setDuration] = useState('');
     const [date, setDate] = useState('');
     const [showDatePicker, setShowDatePicker] = useState(false);
@@ -35,7 +35,7 @@ export default AddAnActivities = ({ navigation }) => {
      */
     const handleItemSelect = (activity) => {
         console.log('Selected item: ', activity);
-        setActivity(activity);
+        setActivityName(activity);
     }
 
     /** 
@@ -103,28 +103,29 @@ export default AddAnActivities = ({ navigation }) => {
      */
     const handleSavePress = () => {
         console.log('Save Pressed');
-        if (activity === null || duration.trim() === '' || date.trim() === '') {
+        if (activityName === null || duration.trim() === '' || date.trim() === '') {
             Alert.alert('Invalid Input', 'Please check your input values');
             return;
-        } else {
-            const durationValue = parseInt(duration.trim(), 10);
-            if (isNaN(durationValue) || !Number.isInteger(durationValue) || durationValue < 0) { // Check if not a valid integer
-                Alert.alert('Invalid Duration', 'Duration must be a valid integer');
-                return;
-            }
-
-            console.log('Activity: ', activity, 'Duration: ', duration, 'Date: ', date);
-            
-            const newActivity = {
-                name: activity, 
-                duration: durationValue,
-                date: date, 
-                special: (activity === 'Running' || activity === 'Weights') && durationValue >= 60,
-            };
-
-            addActivity(newActivity);
-            navigation.navigate('Activities')
+        } 
+        
+        const durationValue = parseInt(duration.trim(), 10);
+        if (isNaN(durationValue) || !Number.isInteger(durationValue) || durationValue < 0) { // Check if not a valid integer
+            Alert.alert('Invalid Duration', 'Duration must be a valid integer');
+            return;
         }
+
+        console.log('Activity: ', activityName, 'Duration: ', duration, 'Date: ', date);
+        
+        const newActivity = {
+            activity: activityName, 
+            date: date, 
+            duration: durationValue,
+            important: (activityName === 'Running' || activityName === 'Weights') && durationValue >= 60,
+        };
+
+        addActivity(newActivity);
+        navigation.navigate('Activities')
+
     }
 
     /**

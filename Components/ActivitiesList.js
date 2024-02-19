@@ -11,21 +11,21 @@ import { FontAwesome } from '@expo/vector-icons';
  * @param {string} activity.name - activity name
  * @returns {JSX.Element} - ActivityItem component
  */
-const ActivityItem = ({ activity }) => {
+const ActivityItem = ({ item }) => {
   return (
     <View style={styles.activity}>
       <Text style={styles.name}>
-        {activity.name}
+        {item.activity}
       </Text>
-      {activity.special === true && (
+      {item.important && (
         <FontAwesome 
           name="exclamation-triangle" 
           size={spacing.large} 
           color={color.alert}
           style={{marginRight:spacing.small}} />
       )}
-      <Text style={styles.date}>{activity.date}</Text>
-      <Text style={styles.duration}>{activity.duration} min</Text>
+      <Text style={styles.date}>{item.date}</Text>
+      <Text style={styles.duration}>{item.duration} min</Text>
     </View>
   );
 };
@@ -40,10 +40,10 @@ export default ActivitiesList = ({ activityType }) => {
   const { activities } = useContext(ActivityContext);
 
   const filteredActivities = activities.filter(activity => 
-    activityType === 'all' || (activityType === 'special' && activity.special)
+    activityType === 'all' || (activityType === 'special' && activity.important)
   );
 
-  const renderItem = ({ item }) => <ActivityItem activity={item} />;
+  const renderItem = ({ item }) => <ActivityItem item={item} />;
 
   return (
     <FlatList
