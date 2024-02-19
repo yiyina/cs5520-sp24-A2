@@ -46,6 +46,7 @@ export default AddAnActivities = ({ navigation, route }) => {
             setDate(activity.date);
             const parsedDate = new Date(activity.date);
             setSelectedDate(parsedDate);
+            console.log('Selected date: ', selectedDate);
             setShowDatePicker(false);
         }
     }, [route.params]);
@@ -138,12 +139,13 @@ export default AddAnActivities = ({ navigation, route }) => {
         }
 
         console.log('Activity: ', activityName, 'Duration: ', duration, 'Date: ', date);
+        const isActivityImportant = (activityName === 'Running' || activityName === 'Weights') && durationValue >= 60;
         
         const newActivity = {
             activity: activityName, 
             date: selectedDate, 
             duration: durationValue,
-            important: (activityName === 'Running' || activityName === 'Weights') && durationValue >= 60,
+            important: isActivityImportant,
         };
 
         if (route.params) {
@@ -192,21 +194,25 @@ export default AddAnActivities = ({ navigation, route }) => {
                 },
                 { 
                     text: "Yes", 
-                    onPress: () => updateActivity()
+                    onPress: () => updateActivityDetail(activityId, updatedActivity)
                 }
             ],
             { cancelable: false }
         )
     }
 
-    const updateActivity = async () => {
-        const updatedActivity = {
-            ...route.params.activity,
-            important: isSpecialApproved ? false : route.params.activity.important
-        };
+    const updateActivityDetail = async (activityId, updatedActivity) => {
+        const isActivityImportant = (updatedActivity.activity === 'Running' || updatedActivity.activity === 'Weights') && updatedActivity.duration >= 60;
+        const shouldUpdateImportant = route.params ? isCheckBoxChecked ? false : isActivityImportant : isActivityImportant;
     
+        updatedActivity = {
+            ...updatedActivity,
+            date: new Date(selectedDate),
+            important: shouldUpdateImportant
+        };
+        
         try {
-            await FirestoreService.updateActivity(route.params.activity.id, updatedActivity);
+            await FirestoreService.updateActivity(activityId, updatedActivity);
             console.log('Activity updated');
             navigation.navigate('Activities');
         } catch (error) {
@@ -290,7 +296,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     datePickerContainer: {
-        height: spacing.xxlarge*6,
+        height: spacing.xxlarge*7,
     },
     buttonContainer: { 
         flexDirection: 'row', 
