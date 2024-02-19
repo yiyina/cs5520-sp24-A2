@@ -32,7 +32,7 @@ export default AddAnActivities = ({ navigation, route }) => {
     };
 
     useHeaderNavigation(navigation, route, route.params? 'Edit' : 'Add');
-    console.log("route information:", route.params.activity.important);
+    console.log("route information:", route.params?.activity.important);
 
     // List of activities to be displayed in the dropdown list
     const dropDownListItems = ['Walking', 'Running', 'Swimming', 'Weights', 'Yoga', 'Cycling', 'Hiking'];
@@ -253,7 +253,7 @@ export default AddAnActivities = ({ navigation, route }) => {
                     )}
                 </View>
                 {
-                    route.params.activity.important && (
+                    route.params && route.params.activity.important && (
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                             <Text style={styles.specialInfo}>This item is marked as special. Select the checkbox if you would like to approve it.</Text>
                             <Checkbox
