@@ -1,8 +1,10 @@
 import { StyleSheet, View } from 'react-native';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { color } from '../Components/StyleHelper';
 import useHeaderNavigation from '../Components/useHeaderNavigation';
 import ActivitiesList from '../Components/ActivitiesList';
+import { collection, onSnapshot } from "firebase/firestore";
+import { firestore } from '../firebaseConfig';
 
 /**
  * Render the AllActivities screen component.
@@ -12,7 +14,7 @@ import ActivitiesList from '../Components/ActivitiesList';
  */
 export default AllActivities = ({ navigation }) => {
     useHeaderNavigation(navigation);
-
+    
     return (
         <View style={styles.container}>
             <ActivitiesList activityType="all" />

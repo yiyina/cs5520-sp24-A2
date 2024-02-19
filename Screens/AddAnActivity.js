@@ -8,7 +8,6 @@ import CommonText from '../Components/CommonText';
 import DatePicker from '../Components/DatePicker';
 import { ActivityContext } from '../Components/ActivityContext';
 import PressableButton from '../Components/PressableButton';
-import { firestore } from '../firebaseConfig';
 import FirestoreService from '../Service/FirestoreService';
 
 
@@ -129,7 +128,6 @@ export default AddAnActivities = ({ navigation }) => {
         // addActivity(newActivity);
         // navigation.navigate('Activities')
         addActivityToFirestore(newActivity);
-
     }
 
     /**

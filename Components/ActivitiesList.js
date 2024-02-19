@@ -1,8 +1,10 @@
 import { StyleSheet, Text, View, FlatList } from 'react-native';
-import React, { useContext } from 'react';
-import { ActivityContext } from './ActivityContext';
+import React, { useState, useContext, useEffect } from 'react';
+// import { ActivityContext } from './ActivityContext';
 import { color, spacing } from './StyleHelper';
 import { FontAwesome } from '@expo/vector-icons';
+import FirestoreService from '../Service/FirestoreService';
+import { useIsFocused } from '@react-navigation/native';
 
 /**
  * Render the ActivityItem component.
@@ -12,6 +14,7 @@ import { FontAwesome } from '@expo/vector-icons';
  * @returns {JSX.Element} - ActivityItem component
  */
 const ActivityItem = ({ item }) => {
+
   return (
     <View style={styles.activity}>
       <Text style={styles.name}>
@@ -24,22 +27,42 @@ const ActivityItem = ({ item }) => {
           color={color.alert}
           style={{marginRight:spacing.small}} />
       )}
+      {/* <Text style={styles.date}>{item.date}</Text> */}
       <Text style={styles.date}>{item.date}</Text>
       <Text style={styles.duration}>{item.duration} min</Text>
     </View>
   );
 };
 
-/**
- * Render the ActivitiesList component by filtering activities based on activity type.
- * 
- * @param {string} activityType - activity type
- * @returns {JSX.Element} - ActivitiesList component
- */
 export default ActivitiesList = ({ activityType }) => {
-  const { activities } = useContext(ActivityContext);
+  const [activities, setActivities] = useState([]);
+  const isFocused = useIsFocused();
 
-  const filteredActivities = activities.filter(activity => 
+  useEffect(() => {
+    const fetchActivities = async () => {
+      try {
+        const data = await FirestoreService.getActivities();
+        if (data.length > 0) {
+          const formattedData = data.map(item => ({
+            ...item,
+            date: new Date(item.date.toDate()).toDateString(),
+          }));
+          setActivities(formattedData);
+        } else {
+          console.log('No activities found');
+          setActivities([]); 
+        }
+      } catch (error) {
+        console.error('Error fetching activities: ', error);
+      }
+    };
+
+    if (isFocused) { 
+      fetchActivities();
+    }
+  }, [activityType, isFocused]);
+
+  const filteredActivities = activities.filter(activity =>
     activityType === 'all' || (activityType === 'special' && activity.important)
   );
 
@@ -55,6 +78,33 @@ export default ActivitiesList = ({ activityType }) => {
     />
   );
 }
+
+
+/**
+ * Render the ActivitiesList component by filtering activities based on activity type.
+ * 
+ * @param {string} activityType - activity type
+ * @returns {JSX.Element} - ActivitiesList component
+ */
+// export default ActivitiesList = ({ activityType }) => {
+//   const { activities } = useContext(ActivityContext);
+
+//   const filteredActivities = activities.filter(activity => 
+//     activityType === 'all' || (activityType === 'special' && activity.important)
+//   );
+
+//   const renderItem = ({ item }) => <ActivityItem item={item} />;
+
+//   return (
+//     <FlatList
+//       style={styles.container}
+//       data={filteredActivities}
+//       renderItem={renderItem}
+//       keyExtractor={(item, index) => index.toString()}
+//       contentContainerStyle={styles.container}
+//     />
+//   );
+// }
 
 const styles = StyleSheet.create({
   container: {
