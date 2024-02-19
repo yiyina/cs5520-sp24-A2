@@ -140,6 +140,7 @@ export default AddAnActivities = ({ navigation }) => {
     const addActivityToFirestore = async (newActivity) => {
         try {
             await FirestoreService.addActivity(newActivity);
+            console.log('Activity added + Navigated to Activities screen');
             navigation.navigate('Activities');
         } catch (error) {
             console.error('Error adding activity: ', error);
