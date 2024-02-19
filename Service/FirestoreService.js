@@ -1,6 +1,6 @@
 // import { firebase } from "@react-native-firebase/database";
 import { firestore } from "../firebaseConfig";
-import { collection, addDoc, getDocs, updateDoc, deleteDoc, doc } from "firebase/firestore";
+import { collection, addDoc, getDocs, query, orderBy, updateDoc, deleteDoc, doc } from "firebase/firestore";
 
 const FirestoreService = {
     async addActivity(newActivity) {
@@ -16,7 +16,7 @@ const FirestoreService = {
   
     async getActivities() {
         try {
-            const snapshot = await getDocs(collection(firestore, 'activities'));
+            const snapshot = await getDocs(query(collection(firestore, 'activities'), orderBy('date', 'asc')));
             return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
         } catch (error) {
             console.error("Error getting activities: ", error);
