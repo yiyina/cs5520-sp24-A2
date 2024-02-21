@@ -9,7 +9,7 @@ import CommonText from '../Components/CommonText';
 import DatePicker from '../Components/DatePicker';
 // import { ActivityContext } from '../Components/ActivityContext';
 import PressableButton from '../Components/PressableButton';
-import FirestoreService from '../Service/FirestoreService';
+import FirestoreService from '../firebase-files/firebaseHelpers';
 
 
 /**

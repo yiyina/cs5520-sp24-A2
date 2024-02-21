@@ -4,7 +4,7 @@ import Button from './Button';
 import { color, spacing, fontSize } from './StyleHelper';
 import { FontAwesome } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
-import FirestoreService from '../Service/FirestoreService';
+import FirestoreService from '../firebase-files/firebaseHelpers';
 
 /**
  * Use header navigation based on the type of navigation.

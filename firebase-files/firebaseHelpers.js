@@ -1,4 +1,4 @@
-import { firestore } from "../firebaseConfig";
+import { firestore } from "./firebaseSetup";
 import { collection, addDoc, getDocs, query, orderBy, updateDoc, deleteDoc, doc } from "firebase/firestore";
 
 const FirestoreService = {
