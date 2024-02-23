@@ -10,9 +10,12 @@ import DateTimePicker from '@react-native-community/datetimepicker';
  * @param {function} props.onDateChange - date change event handler
  * @returns {JSX.Element} - DatePicker component
  */
-export default DatePicker = ({ selectedDate, onDateChange }) => {
+export default DatePicker = ({ selectedDate, onDateChange, setShowDatePicker }) => {
     const handleOnChange = (event, selectedDate) => {
         onDateChange(event, selectedDate);
+        if (event.type === 'set') {  // Check if the date was set/confirmed
+            setShowDatePicker(false);  // Close the date picker
+        }
     }
 
     return (

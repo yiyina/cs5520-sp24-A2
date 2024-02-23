@@ -93,7 +93,7 @@ export default AddAnActivities = ({ navigation, route }) => {
      * @returns {void}
      */
     const handleDatePress = () => {
-        setShowDatePicker(true);
+        setShowDatePicker(!showDatePicker);
         setDate(formatDate(selectedDate));
     }
 
@@ -105,14 +105,12 @@ export default AddAnActivities = ({ navigation, route }) => {
      * @returns {void}
      */
     const onDateChange = (event, selectedDate) => {
-        console.log('Selected date: ', selectedDate);
-        if (selectedDate) {
+        setShowDatePicker(false);
+    
+        if (selectedDate && event.type === 'set') {
             const formattedDate = formatDate(selectedDate);
-            setDate(formattedDate); // Update the date state with the formatted date
-            if (event.type === 'set') {
-                setShowDatePicker(false);
-                setSelectedDate(selectedDate);
-            }
+            setDate(formattedDate);
+            setSelectedDate(selectedDate);
         }
     };
 
@@ -243,42 +241,47 @@ export default AddAnActivities = ({ navigation, route }) => {
                 <CommonText />
 
                 <CommonText text={'Date *'}/>
-                <Input text={date} onPressIn={handleDatePress}/>
-                <View style={styles.datePickerContainer}>
+                <View>
+                    <Text onPress={handleDatePress} style={styles.dateText}>
+                        {date || 'Select a Date'}
+                    </Text>
                     {showDatePicker && (
                         <DatePicker
                             selectedDate={selectedDate}
                             onDateChange={onDateChange}
+                            setShowDatePicker={setShowDatePicker}
                         />
                     )}
                 </View>
-                {   !showDatePicker && 
-                    route.params && route.params.activity.important && (
-                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                            <Text style={styles.specialInfo}>This item is marked as special. Select the checkbox if you would like to approve it.</Text>
-                            <Checkbox
-                                value={isCheckBoxChecked}
-                                onValueChange={handleCheckboxChange}
-                            />
+                <View style={styles.butomCompContainer}>
+                    {   showDatePicker === false && 
+                        route.params && route.params.activity.important && (
+                            <View style={styles.checkboxContainter}>
+                                <Text style={styles.specialInfo}>This item is marked as special. Select the checkbox if you would like to approve it.</Text>
+                                <Checkbox
+                                    value={isCheckBoxChecked}
+                                    onValueChange={handleCheckboxChange}
+                                />
+                            </View>
+                        )
+                    }
+                    {   showDatePicker === false && 
+                        <View style={styles.buttonContainer}>
+                            <PressableButton 
+                                customStyle={styles.cancelButton} 
+                                onPressFunction={()=> navigation.navigate('Activities')} 
+                                pressedStyle={styles.pressedButton}>
+                                <Text style={styles.buttonText}>Cancel</Text>
+                            </PressableButton>
+                            <PressableButton 
+                                customStyle={styles.saveButton} 
+                                onPressFunction={handleSavePress} 
+                                pressedStyle={styles.pressedButton}>
+                                <Text style={styles.buttonText}>Save</Text>
+                            </PressableButton>
                         </View>
-                    )
-                }
-                {   !showDatePicker && 
-                    <View style={styles.buttonContainer}>
-                        <PressableButton 
-                            customStyle={styles.cancelButton} 
-                            onPressFunction={()=> navigation.navigate('Activities')} 
-                            pressedStyle={styles.pressedButton}>
-                            <Text style={styles.buttonText}>Cancel</Text>
-                        </PressableButton>
-                        <PressableButton 
-                            customStyle={styles.saveButton} 
-                            onPressFunction={handleSavePress} 
-                            pressedStyle={styles.pressedButton}>
-                            <Text style={styles.buttonText}>Save</Text>
-                        </PressableButton>
-                    </View>
-                }
+                    }
+                </View>
             </View>
         </View>
     );
@@ -297,8 +300,25 @@ const styles = StyleSheet.create({
         color: color.text,
         fontWeight: 'bold',
     },
+    dateText: {
+        backgroundColor: color.background,
+        borderColor: color.text,
+        borderWidth: 2,
+        height: spacing.xlarge,
+        borderRadius: spacing.small,
+        paddingLeft: spacing.small,
+        paddingTop: spacing.small / 2,
+        fontSize: 16,
+    },
     datePickerContainer: {
         height: spacing.xxlarge*5,
+    },
+    butomCompContainer: {
+        marginTop: spacing.xlarge*7,
+    },
+    checkboxContainter: {
+        flexDirection: 'row', 
+        alignItems: 'center',
     },
     buttonContainer: { 
         flexDirection: 'row', 
