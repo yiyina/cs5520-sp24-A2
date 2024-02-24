@@ -242,9 +242,11 @@ export default AddAnActivities = ({ navigation, route }) => {
 
                 <CommonText text={'Date *'}/>
                 <View>
-                    <Text onPress={handleDatePress} style={styles.dateText}>
+                    {/* <Text onPress={handleDatePress} style={styles.dateText}>
                         {date || 'Select a Date'}
-                    </Text>
+                    </Text> */}
+                    <Input text={date} handleInput={()=>{}} onPressIn={handleDatePress}/>
+                    
                     {showDatePicker && (
                         <DatePicker
                             selectedDate={selectedDate}
@@ -254,7 +256,7 @@ export default AddAnActivities = ({ navigation, route }) => {
                     )}
                 </View>
                 <View style={styles.butomCompContainer}>
-                    {   showDatePicker === false && 
+                    {   !showDatePicker && 
                         route.params && route.params.activity.important && (
                             <View style={styles.checkboxContainter}>
                                 <Text style={styles.specialInfo}>This item is marked as special. Select the checkbox if you would like to approve it.</Text>
@@ -265,7 +267,7 @@ export default AddAnActivities = ({ navigation, route }) => {
                             </View>
                         )
                     }
-                    {   showDatePicker === false && 
+                    {   !showDatePicker && 
                         <View style={styles.buttonContainer}>
                             <PressableButton 
                                 customStyle={styles.cancelButton} 
