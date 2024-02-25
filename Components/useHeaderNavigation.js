@@ -1,5 +1,4 @@
 import { useLayoutEffect } from 'react';
-import { Alert } from 'react-native';
 import Button from './Button';
 import { color, spacing, fontSize } from './StyleHelper';
 import { FontAwesome } from '@expo/vector-icons';
@@ -15,6 +14,8 @@ import FirestoreService from '../firebase-files/firebaseHelpers';
  * @returns {void}
  */
 const useHeaderNavigation = (navigation, route, type) => {
+  console.log("navigation type", type);
+
   /**
    * Handle the delete activity action.
    * 
@@ -23,24 +24,8 @@ const useHeaderNavigation = (navigation, route, type) => {
    */
   const handleDelete = () => {
     console.log('Delete activity');
-    Alert.alert(
-      "Delete", 
-      "Are you sure you want to delete this item?",
-      [
-          {
-              text: "No",
-              onPress: () => console.log("Cancel Pressed"),
-              style: "cancel"
-          },
-          { 
-              text: "Yes", onPress: () => {
-                  FirestoreService.deleteActivity(route.params.activity.id);
-                  navigation.navigate('All Activities');
-              } 
-          }
-      ],
-      { cancelable: false }
-    );
+    FirestoreService.deleteActivity(route.params.activity.id);
+    navigation.navigate('All Activities');
   }
 
   // Set header navigation options based on the type of navigation.

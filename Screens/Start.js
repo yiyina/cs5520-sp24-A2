@@ -3,8 +3,8 @@ import React, { useState, useEffect } from 'react';
 import { color, spacing } from '../Components/StyleHelper';
 import { useIsFocused } from '@react-navigation/native';
 import Input from '../Components/Input';
-import Button from '../Components/Button';
 import CommonText from '../Components/CommonText';
+import PressableButton from '../Components/PressableButton';
 
 /**
  * Render the Start screen component.
@@ -121,7 +121,6 @@ export default Start = ({ navigation }) => {
   }
 
   const isSubmitDisabled = !email && !phone ? true : false; // if email or phone is empty, disable the button
-  const submitButtonColor = isSubmitDisabled ? color.invalid : color.text; // if email or phone is empty, disable the button
 
   /**
    * Render the Start screen component
@@ -143,15 +142,19 @@ export default Start = ({ navigation }) => {
         </Text>
 
         <View style={styles.buttonContainer}>
-          <Button 
-            text="Reset" 
-            textColor={color.warning} 
-            handleClick={handleReset}/>
-          <Button 
-            text="Start" 
-            textColor={submitButtonColor} 
-            disabled={isSubmitDisabled} 
-            handleClick={handlePressStart}/>
+          <PressableButton 
+            customStyle={styles.resetButton} 
+            onPressFunction={handleReset} 
+            pressedStyle={styles.pressedButton}>
+            <Text style={styles.buttonText}>Reset</Text>
+          </PressableButton>
+          <PressableButton 
+            customStyle={[styles.startButton, isSubmitDisabled && { opacity: 0.5 }]} 
+            onPressFunction={handlePressStart} 
+            pressedStyle={styles.pressedButton} 
+            disabled={isSubmitDisabled}>
+            <Text style={styles.buttonText}>Start</Text>
+          </PressableButton>
         </View>
     </View>
   )
@@ -173,5 +176,18 @@ const styles = StyleSheet.create({
     buttonContainer: {
       flexDirection: 'row',
       justifyContent: 'space-around',
+    },
+    resetButton: {
+      backgroundColor: color.warning,
+    }, 
+    startButton: {
+      backgroundColor: color.cardBackground,
+    },
+    pressedButton: {
+      opacity: 0.5,
+    },
+    buttonText: {
+      color: color.commonText,
+      textAlign: 'center',
     }
 })

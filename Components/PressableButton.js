@@ -1,7 +1,7 @@
 import { StyleSheet, Pressable } from 'react-native'
 import React from 'react'
 
-export default function PressableButton({ customStyle, onPressFunction, pressedStyle, children }) {
+export default function PressableButton({ customStyle, onPressFunction, pressedStyle, children, disabled }) {
     return (
         <Pressable 
             style={({pressed}) => [
@@ -9,7 +9,8 @@ export default function PressableButton({ customStyle, onPressFunction, pressedS
                 customStyle, 
                 pressed && pressedStyle
             ]} 
-            onPress={onPressFunction}>
+            onPress={onPressFunction}
+            disabled={disabled}>
             {children}
         </Pressable>
     )
