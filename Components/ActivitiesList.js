@@ -39,10 +39,22 @@ const ActivityItem = ({ item }) => {
   );
 };
 
+/** 
+ * Render the ActivitiesList component by filtering activities based on activity type.
+ * 
+ * @param {string} activityType - activity type
+ * @returns {JSX.Element} - ActivitiesList component
+ */
 export default ActivitiesList = ({ activityType }) => {
   const [activities, setActivities] = useState([]);
   const isFocused = useIsFocused();
 
+  /** 
+   * Fetch activities from Firestore and set activities state.
+   * 
+   * @param {void}
+   * @returns {void}
+   */
   useEffect(() => {
     const fetchActivities = async () => {
       try {
@@ -67,6 +79,7 @@ export default ActivitiesList = ({ activityType }) => {
     }
   }, [activityType, isFocused]);
 
+  // set activities state based on activityType
   const filteredActivities = activities.filter(activity =>
     activityType === 'all' || (activityType === 'special' && activity.important)
   );
