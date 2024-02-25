@@ -37,7 +37,7 @@ const useHeaderNavigation = (navigation, route, type) => {
           { 
               text: "Yes", onPress: () => {
                   FirestoreService.deleteActivity(route.params.activity.id);
-                  navigation.navigate('All Activities');
+                  navigation.navigate('Activities');
               } 
           }
       ],
@@ -54,7 +54,7 @@ const useHeaderNavigation = (navigation, route, type) => {
           <Button 
             text="<" 
             textColor={color.invalid}
-            handleClick={() => navigation.navigate('All Activities')} 
+            handleClick={() => navigation.navigate('Activities')} 
             style={{ fontSize: fontSize.large, marginLeft: spacing.medium, padding: spacing.small }}
           />
         ),
