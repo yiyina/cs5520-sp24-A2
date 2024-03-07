@@ -62,7 +62,7 @@ export default ActivitiesList = ({ activityType }) => {
         if (data.length > 0) {
           const formattedData = data.map(item => ({
             ...item,
-            date: new Date(item.date.toDate()).toDateString(),
+            date: item.date && item.date.toDate ? new Date(item.date.toDate()).toDateString() : '',
           }));
           setActivities(formattedData);
         } else {
