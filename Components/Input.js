@@ -11,7 +11,7 @@ import { color, spacing } from './StyleHelper';
  * @param {function} props.onFocus - input focus event handler
  * @returns {JSX.Element} - Input component
  */
-export default Input = ({ text, handleInput, onFocus }) => {
+export default Input = ({ text, handleInput, onPressIn }) => {
 
   /**
    * Handle text change event and call handleInput function.
@@ -28,7 +28,7 @@ export default Input = ({ text, handleInput, onFocus }) => {
         style={styles.box} 
         value={text} 
         onChangeText={textChange}
-        onFocus={onFocus} />
+        onPressIn={onPressIn} />
     </View>
   )
 }

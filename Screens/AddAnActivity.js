@@ -1,31 +1,55 @@
 import React, { useState, useContext } from 'react';
-import { StyleSheet, View, Pressable, Alert } from 'react-native';
+import { StyleSheet, View, Alert, Text } from 'react-native';
+import Checkbox from 'expo-checkbox';
 import useHeaderNavigation from '../Components/useHeaderNavigation';
 import { color, spacing } from '../Components/StyleHelper';
 import Input from '../Components/Input';
 import DropDownList from '../Components/DropDownList';
 import CommonText from '../Components/CommonText';
 import DatePicker from '../Components/DatePicker';
-import Button from '../Components/Button';
-import { ActivityContext } from '../Components/ActivityContext';
+// import { ActivityContext } from '../Components/ActivityContext';
+import PressableButton from '../Components/PressableButton';
+import FirestoreService from '../firebase-files/firebaseHelpers';
+
 
 /**
  * Render the AddAnActivities screen component.
  * 
  * @param {object} navigation - navigation object
+ * @param {object} route - route object containing parameters
  * @returns {JSX.Element} - AddAnActivities screen component
  */
-export default AddAnActivities = ({ navigation }) => {
-    const [activity, setActivity] = useState('');
+export default AddAnActivities = ({ navigation, route }) => {
+    const [activityName, setActivityName] = useState('');
     const [duration, setDuration] = useState('');
     const [date, setDate] = useState('');
     const [showDatePicker, setShowDatePicker] = useState(false);
     const [selectedDate, setSelectedDate] = useState(new Date());
+    const [isCheckBoxChecked, setIsCheckBoxChecked] = useState(false);
 
-    useHeaderNavigation(navigation, 'Add');
+    const handleCheckboxChange = () => {
+        setIsCheckBoxChecked(!isCheckBoxChecked);
+    };
+
+    useHeaderNavigation(navigation, route, route.params? 'Edit' : 'Add');
+    console.log("route information:", route.params?.activity.important);
 
     // List of activities to be displayed in the dropdown list
     const dropDownListItems = ['Walking', 'Running', 'Swimming', 'Weights', 'Yoga', 'Cycling', 'Hiking'];
+
+    // Initialize form fields with values from route params if available (for edit mode)
+    React.useEffect(() => {
+        if (route.params) {
+            const { activity } = route.params;
+            setActivityName(activity.activity);
+            setDuration(activity.duration.toString());
+            setDate(activity.date);
+            const parsedDate = new Date(activity.date);
+            setSelectedDate(parsedDate);
+            console.log('Selected date: ', selectedDate);
+            setShowDatePicker(false);
+        }
+    }, [route.params]);
 
     /**
      * Handle the selected item from the dropdown list
@@ -35,7 +59,7 @@ export default AddAnActivities = ({ navigation }) => {
      */
     const handleItemSelect = (activity) => {
         console.log('Selected item: ', activity);
-        setActivity(activity);
+        setActivityName(activity);
     }
 
     /** 
@@ -69,19 +93,9 @@ export default AddAnActivities = ({ navigation }) => {
      * @returns {void}
      */
     const handleDatePress = () => {
-        setShowDatePicker(true);
+        setShowDatePicker(!showDatePicker);
         setDate(formatDate(selectedDate));
     }
-
-    /**
-     * Toggle the date picker
-     * 
-     * @param {void}
-     * @returns {void}
-     */
-    const toggleDatePicker = () => {
-        setShowDatePicker(!showDatePicker);
-    };
 
     /** 
      * Handle the date change, update the date state, and show/hide the date picker
@@ -91,19 +105,17 @@ export default AddAnActivities = ({ navigation }) => {
      * @returns {void}
      */
     const onDateChange = (event, selectedDate) => {
-        console.log('Selected date: ', selectedDate);
-        if (selectedDate) {
+        setShowDatePicker(false);
+    
+        if (selectedDate && event.type === 'set') {
             const formattedDate = formatDate(selectedDate);
-            setDate(formattedDate); // Update the date state with the formatted date
-            if (event.type === 'set') {
-                setShowDatePicker(false);
-                setSelectedDate(selectedDate);
-            }
+            setDate(formattedDate);
+            setSelectedDate(selectedDate);
         }
     };
 
     // Get the addActivity function from the ActivityContext
-    const { addActivity } = useContext(ActivityContext);
+    // const { addActivity } = useContext(ActivityContext);
 
     /**
      * Handle the save press, validate the input values, and add the activity
@@ -113,29 +125,98 @@ export default AddAnActivities = ({ navigation }) => {
      */
     const handleSavePress = () => {
         console.log('Save Pressed');
-        if (activity === null || duration.trim() === '' || date.trim() === '') {
+        if (activityName === null || duration.trim() === '' || date.trim() === '') {
             Alert.alert('Invalid Input', 'Please check your input values');
             return;
+        } 
+        
+        const durationValue = parseInt(duration.trim(), 10);
+        if (isNaN(durationValue) || !Number.isInteger(durationValue) || durationValue < 0) { // Check if not a valid integer
+            Alert.alert('Invalid Duration', 'Duration must be a valid integer');
+            return;
+        }
+
+        console.log('Activity: ', activityName, 'Duration: ', duration, 'Date: ', date);
+        const isActivityImportant = (activityName === 'Running' || activityName === 'Weights') && durationValue >= 60;
+        
+        const newActivity = {
+            activity: activityName, 
+            date: selectedDate, 
+            duration: durationValue,
+            important: isActivityImportant,
+        };
+
+        if (route.params) {
+            updateActivityInFirestore(route.params.activity.id, newActivity);
         } else {
-            const durationValue = parseInt(duration.trim(), 10);
-            if (isNaN(durationValue) || !Number.isInteger(durationValue)) { // Check if not a valid integer
-                Alert.alert('Invalid Duration', 'Duration must be a valid integer');
-                return;
-            }
+            addActivityToFirestore(newActivity);
+        }
 
-            console.log('Activity: ', activity, 'Duration: ', duration, 'Date: ', date);
-            
-            const newActivity = {
-                name: activity, 
-                duration: durationValue,
-                date: date, 
-                special: (activity === 'Running' || activity === 'Weights') && durationValue >= 60,
-            };
+        // addActivity(newActivity);
+        // navigation.navigate('Activities')
+    }
 
-            addActivity(newActivity);
-            navigation.navigate('Activities')
+    /**
+     * Add the activity to Firestore
+     *  
+     * @param {object} newActivity - new activity object
+     * @returns {void}
+     * @throws {error} - error adding activity
+     */
+    const addActivityToFirestore = async (newActivity) => {
+        try {
+            await FirestoreService.addActivity(newActivity);
+            console.log('Activity added + Navigated to Activities screen');
+            navigation.navigate('Activities');
+        } catch (error) {
+            console.error('Error adding activity: ', error);
         }
     }
+
+    /**
+     * Update the activity in Firestore
+     * 
+     * @param {string} activityId - activity ID
+     * @param {object} updatedActivity - updated activity object
+     * @returns {void}
+     */
+    const updateActivityInFirestore = async (activityId, updatedActivity) => {
+        Alert.alert(
+            "Important",
+            "Are you sure you want to save these changes?",
+            [
+                {
+                    text: "No",
+                    onPress: () => console.log("Cancel Pressed"),
+                    style: "cancel"
+                },
+                { 
+                    text: "Yes", 
+                    onPress: () => updateActivityDetail(activityId, updatedActivity)
+                }
+            ],
+            { cancelable: false }
+        )
+    }
+
+    const updateActivityDetail = async (activityId, updatedActivity) => {
+        const isActivityImportant = (updatedActivity.activity === 'Running' || updatedActivity.activity === 'Weights') && updatedActivity.duration >= 60;
+        const shouldUpdateImportant = route.params ? isCheckBoxChecked ? false : isActivityImportant : isActivityImportant;
+    
+        updatedActivity = {
+            ...updatedActivity,
+            date: new Date(selectedDate),
+            important: shouldUpdateImportant
+        };
+        
+        try {
+            await FirestoreService.updateActivity(activityId, updatedActivity);
+            console.log('Activity updated');
+            navigation.navigate('Activities');
+        } catch (error) {
+            console.error('Error updating activity: ', error);
+        }
+    };
 
     /**
      * Render the AddAnActivities screen component
@@ -147,7 +228,12 @@ export default AddAnActivities = ({ navigation }) => {
         <View style={styles.container}>
             <View style={styles.form}>
                 <CommonText text={'Activity *'} />
-                <DropDownList placeholder={'Select An Activity'} listItems={dropDownListItems} handleItemSelect={handleItemSelect}/>
+                <DropDownList 
+                    placeholder={'Select An Activity'} 
+                    listItems={dropDownListItems} 
+                    handleItemSelect={handleItemSelect}
+                    selectedItem={activityName}
+                />
                 <CommonText />
                 
                 <CommonText text={'Duration (min)*'}/>
@@ -155,20 +241,48 @@ export default AddAnActivities = ({ navigation }) => {
                 <CommonText />
 
                 <CommonText text={'Date *'}/>
-                <Pressable onPress={toggleDatePicker}>
-                    <Input handleInput={handleDatePress} text={date} onFocus={handleDatePress}/>
-                </Pressable>
-                <View style={styles.datePickerContainer}>
+                <View>
+                    {/* <Text onPress={handleDatePress} style={styles.dateText}>
+                        {date || 'Select a Date'}
+                    </Text> */}
+                    <Input text={date} handleInput={()=>{}} onPressIn={handleDatePress}/>
+                    
                     {showDatePicker && (
                         <DatePicker
                             selectedDate={selectedDate}
                             onDateChange={onDateChange}
+                            setShowDatePicker={setShowDatePicker}
                         />
                     )}
                 </View>
-                <View style={styles.buttonContainer}>
-                    <Button text={'Cancel'} handleClick={()=> navigation.navigate('Activities')} style={styles.cancelButton}/>
-                    <Button text={'Save'} handleClick={handleSavePress} style={styles.saveButton}/>
+                <View style={styles.butomCompContainer}>
+                    {   !showDatePicker && 
+                        route.params && route.params.activity.important && (
+                            <View style={styles.checkboxContainter}>
+                                <Text style={styles.specialInfo}>This item is marked as special. Select the checkbox if you would like to approve it.</Text>
+                                <Checkbox
+                                    value={isCheckBoxChecked}
+                                    onValueChange={handleCheckboxChange}
+                                />
+                            </View>
+                        )
+                    }
+                    {   !showDatePicker && 
+                        <View style={styles.buttonContainer}>
+                            <PressableButton 
+                                customStyle={styles.cancelButton} 
+                                onPressFunction={()=> navigation.navigate('Activities')} 
+                                pressedStyle={styles.pressedButton}>
+                                <Text style={styles.buttonText}>Cancel</Text>
+                            </PressableButton>
+                            <PressableButton 
+                                customStyle={styles.saveButton} 
+                                onPressFunction={handleSavePress} 
+                                pressedStyle={styles.pressedButton}>
+                                <Text style={styles.buttonText}>Save</Text>
+                            </PressableButton>
+                        </View>
+                    }
                 </View>
             </View>
         </View>
@@ -188,19 +302,49 @@ const styles = StyleSheet.create({
         color: color.text,
         fontWeight: 'bold',
     },
+    dateText: {
+        backgroundColor: color.background,
+        borderColor: color.text,
+        borderWidth: 2,
+        height: spacing.xlarge,
+        borderRadius: spacing.small,
+        paddingLeft: spacing.small,
+        paddingTop: spacing.small / 2,
+        fontSize: 16,
+    },
     datePickerContainer: {
-        height: spacing.xxlarge*6,
+        height: spacing.xxlarge*5,
+    },
+    butomCompContainer: {
+        marginTop: spacing.xlarge*7,
+    },
+    checkboxContainter: {
+        flexDirection: 'row', 
+        alignItems: 'center',
     },
     buttonContainer: { 
         flexDirection: 'row', 
         justifyContent: 'space-between', 
         marginTop: spacing.large,
-        paddingHorizontal: spacing.xxlarge,
+        paddingHorizontal: spacing.large,
+    },
+    buttonText: {
+        color: color.commonText,
+        textAlign: 'center',
     },
     cancelButton: {
-        color: color.warning,
+        backgroundColor: color.warning,
     },
     saveButton: {
-        color: color.text,
+        backgroundColor: color.cardBackground,
+    },
+    pressedButton: {
+        opacity: 0.5,
+    },
+    specialInfo: {
+        color: color.cardBackground,
+        fontWeight: 'bold',
+        width: '80%',
+        marginLeft: spacing.large,
     },
 });

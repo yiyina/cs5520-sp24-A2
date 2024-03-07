@@ -1,7 +1,11 @@
-import { StyleSheet, Text, View, FlatList } from 'react-native';
-import React, { useContext } from 'react';
-import { ActivityContext } from './ActivityContext';
+import { StyleSheet, Text, FlatList, Pressable } from 'react-native';
+import React, { useState, useContext, useEffect } from 'react';
+// import { ActivityContext } from './ActivityContext';
 import { color, spacing } from './StyleHelper';
+import { FontAwesome } from '@expo/vector-icons';
+import FirestoreService from '../firebase-files/firebaseHelpers';
+import { useIsFocused } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 
 /**
  * Render the ActivityItem component.
@@ -10,37 +14,77 @@ import { color, spacing } from './StyleHelper';
  * @param {string} activity.name - activity name
  * @returns {JSX.Element} - ActivityItem component
  */
-const ActivityItem = ({ activity }) => {
+const ActivityItem = ({ item }) => {
+  const navigation = useNavigation();
+
   return (
-    <View style={styles.activity}>
+    <Pressable 
+      style={styles.activity} 
+      onPress={() => navigation.navigate('Add An Activity', { activity: item })}
+    >
       <Text style={styles.name}>
-        {activity.name}
+        {item.activity}
       </Text>
-      {activity.special === true && (
-        <View style={styles.iconContainer}>
-          <Text style={styles.icon}>!</Text>
-        </View>
+      {item.important && (
+        <FontAwesome 
+          name="exclamation-triangle" 
+          size={spacing.large} 
+          color={color.alert}
+          style={{marginRight:spacing.small}} />
       )}
-      <Text style={styles.date}>{activity.date}</Text>
-      <Text style={styles.duration}>{activity.duration} min</Text>
-    </View>
+      {/* <Text style={styles.date}>{item.date}</Text> */}
+      <Text style={styles.date}>{item.date}</Text>
+      <Text style={styles.duration}>{item.duration} min</Text>
+    </Pressable>
   );
 };
 
-/**
+/** 
  * Render the ActivitiesList component by filtering activities based on activity type.
  * 
  * @param {string} activityType - activity type
  * @returns {JSX.Element} - ActivitiesList component
  */
 export default ActivitiesList = ({ activityType }) => {
-  const { activities } = useContext(ActivityContext);
+  const [activities, setActivities] = useState([]);
+  const isFocused = useIsFocused();
 
-  const filteredActivities = activities.filter(activity => 
-    activityType === 'all' || (activityType === 'special' && activity.special)
+  /** 
+   * Fetch activities from Firestore and set activities state.
+   * 
+   * @param {void}
+   * @returns {void}
+   */
+  useEffect(() => {
+    const fetchActivities = async () => {
+      try {
+        const data = await FirestoreService.getActivities();
+        if (data.length > 0) {
+          const formattedData = data.map(item => ({
+            ...item,
+            date: new Date(item.date.toDate()).toDateString(),
+          }));
+          setActivities(formattedData);
+        } else {
+          console.log('No activities found');
+          setActivities([]); 
+        }
+      } catch (error) {
+        console.error('Error fetching activities: ', error);
+      }
+    };
+
+    if (isFocused) { 
+      fetchActivities();
+    }
+  }, [activityType, isFocused]);
+
+  // set activities state based on activityType
+  const filteredActivities = activities.filter(activity =>
+    activityType === 'all' || (activityType === 'special' && activity.important)
   );
 
-  const renderItem = ({ item }) => <ActivityItem activity={item} />;
+  const renderItem = ({ item }) => <ActivityItem item={item} />;
 
   return (
     <FlatList
@@ -52,6 +96,33 @@ export default ActivitiesList = ({ activityType }) => {
     />
   );
 }
+
+
+/**
+ * Render the ActivitiesList component by filtering activities based on activity type.
+ * 
+ * @param {string} activityType - activity type
+ * @returns {JSX.Element} - ActivitiesList component
+ */
+// export default ActivitiesList = ({ activityType }) => {
+//   const { activities } = useContext(ActivityContext);
+
+//   const filteredActivities = activities.filter(activity => 
+//     activityType === 'all' || (activityType === 'special' && activity.important)
+//   );
+
+//   const renderItem = ({ item }) => <ActivityItem item={item} />;
+
+//   return (
+//     <FlatList
+//       style={styles.container}
+//       data={filteredActivities}
+//       renderItem={renderItem}
+//       keyExtractor={(item, index) => index.toString()}
+//       contentContainerStyle={styles.container}
+//     />
+//   );
+// }
 
 const styles = StyleSheet.create({
   container: {

@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "224086231282",
+    "firebase_url": "https://cs5520-sp24-a2-57e96-default-rtdb.firebaseio.com",
+    "project_id": "cs5520-sp24-a2-57e96",
+    "storage_bucket": "cs5520-sp24-a2-57e96.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:224086231282:android:b4b02da21d8647e11ba86b",
+        "android_client_info": {
+          "package_name": "com.neu.cs5520a2"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAG7nlggbDSQa0RDmGmU0qpe8Eqi1lnFQ8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

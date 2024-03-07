@@ -12,7 +12,7 @@ import ActivitiesList from '../Components/ActivitiesList';
  */
 export default AllActivities = ({ navigation }) => {
     useHeaderNavigation(navigation);
-
+    
     return (
         <View style={styles.container}>
             <ActivitiesList activityType="all" />
