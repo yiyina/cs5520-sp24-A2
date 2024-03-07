@@ -31,7 +31,9 @@ Begin your journey to a healthier lifestyle, with the ultimate activity-logging 
 This is the first screen with a login function that the user sees when starting the app.
 1. Email (xxx@xxx.com) and Phone number (10 digits, no letters) should be valid.
    
-<img src="https://github.com/yiyina/cs5520-sp24-A2/assets/55360195/fdc8b365-5691-49dd-b176-fd83d3cf6696" alt="image" style="transform: scale(0.2);">
+<div>
+    <img src="https://github.com/yiyina/cs5520-sp24-A2/assets/55360195/fdc8b365-5691-49dd-b176-fd83d3cf6696" alt="image" width="50%">
+</div>
 
 ## Screen 2: All Activities & Special Activities
 These two screens are shown in a bottom tab navigator and both show a list of activity entries. An entry will be automatically marked as special if the type of activity is Running or Weight Training and the duration is more than 60 min.
